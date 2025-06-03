@@ -1,0 +1,7 @@
+# uae_aid_dashboard/.streamlit/config.toml
+[theme]
+primaryColor="#00897b" # Medium Teal (for buttons, select boxes)
+backgroundColor="#f0f2f6" # Light Grey (main app background)
+secondaryBackgroundColor="#e0e0e0" # Slightly darker grey (sidebar background)
+textColor="#263238" # Dark Grey (general text)
+font="sans serif"
