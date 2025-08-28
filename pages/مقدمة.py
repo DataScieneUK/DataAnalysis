@@ -20,7 +20,7 @@ st.image("images/image2.png",  use_container_width=True)
 
 
 st.subheader(f"بلغ إجمالي المساعدات الخارجية لدولة الإمارات، في عام 2024، ما قيمته 11.26 مليار درهم (3.07 مليار دولار أمريكي)، في حين وصلت قيمة المساعدات الإنمائية الرسمية إلى مبلغ 8.97 مليار درهم (2.44 مليار دولار أمريكي)")
-st.image("images/image3.png",  use_container_width=True)
+st.image("images/Image3.png",  use_container_width=True)
 
 
 #st.subheader(f"")
@@ -148,6 +148,7 @@ st.markdown("""
 
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
