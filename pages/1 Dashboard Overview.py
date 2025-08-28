@@ -1,4 +1,16 @@
 import streamlit as st
+# CSS لتحريك الـ sidebar لليمين
+st.markdown(
+    """
+    <style>
+        [data-testid="stSidebar"] {
+            right: 0;
+            left: auto;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # عنوان كبير
 st.title("بيانات عامة")
@@ -9,5 +21,6 @@ st.write(
 )
 
 # إدراج صورة
-st.image("images/image1.png", use_column_width=True)
+st.image("images/image1.png",  use_container_width=True)
+
 
