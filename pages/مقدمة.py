@@ -1,5 +1,7 @@
 import streamlit as st
 # CSS لتحريك الـ sidebar لليمين
+st.sidebar.header("مقدمة")
+st.sidebar.button("المساعدات الخارجية")
 
 
 # عنوان كبير
@@ -148,6 +150,7 @@ st.markdown("""
 
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
