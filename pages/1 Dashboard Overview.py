@@ -9,4 +9,5 @@ st.write(
 )
 
 # إدراج صورة
-st.image("image1.png", use_column_width=True)
+st.image("images/image1.png", use_column_width=True)
+
