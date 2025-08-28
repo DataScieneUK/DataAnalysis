@@ -1,16 +1,6 @@
 import streamlit as st
 # CSS لتحريك الـ sidebar لليمين
-st.markdown(
-    """
-    <style>
-        [data-testid="stSidebar"] {
-            right: 0;
-            left: auto;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+
 
 # عنوان كبير
 st.title("بيانات عامة")
@@ -23,4 +13,29 @@ st.write(
 # إدراج صورة
 st.image("images/image1.png",  use_container_width=True)
 
+st.markdown(
+    """
+    <style>
+        /* نحرك الـ sidebar لليمين */
+        [data-testid="stSidebar"] {
+            float: right;
+        }
+
+        /* نخلي المحتوى الرئيسي على الشمال */
+        [data-testid="stAppViewContainer"] {
+            margin-right: 300px; /* عرض الـ sidebar */
+            margin-left: 0;
+        }
+
+        /* نتأكد إن الـ sidebar ثابت */
+        [data-testid="stSidebar"] section {
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100%;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
