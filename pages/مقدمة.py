@@ -19,8 +19,8 @@ st.image("images/image2.png",  use_container_width=True)
 
 
 
-st.subheader(f"")
-st.image("images/image.png",  use_container_width=True)
+#st.subheader(f"")
+#st.image("images/image.png",  use_container_width=True)
 
 
 #st.subheader(f"")
@@ -148,6 +148,7 @@ st.markdown("""
 
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
