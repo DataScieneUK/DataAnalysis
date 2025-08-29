@@ -3,6 +3,62 @@ import pandas as pd
 import plotly.graph_objects as go
 from io import StringIO
 
+# --- Custom CSS for RTL, colors, and centering images ---
+st.markdown("""
+<style>
+    div.stApp {
+        direction: rtl;
+        text-align: right;
+        background-color: #f0f2f6; /* Light grey background */
+    }
+
+    h1 {
+        color: #004d40; /* Dark teal */
+        text-align: right;
+    }
+    h2, h3 {
+        color: #00695c; /* Slightly lighter teal */
+        text-align: right;
+    }
+
+    [data-testid="stSidebar"] {
+        background-color: #e0e0e0; /* Sidebar color */
+        direction: rtl;
+        text-align: right;
+    }
+
+    /* Fix alignment for sidebar content */
+    [data-testid="stSidebarContent"] {
+        text-align: right;
+        direction: rtl;
+    }
+
+    /* Center images */
+    .stImage {
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Buttons */
+    .stButton>button {
+        background-color: #00897b;
+        color: white;
+    }
+    .stButton>button:hover {
+        background-color: #00796b;
+    }
+
+    /* Text color */
+    .css-1jc7ptx, .e16z5d4j0 {
+        color: #263238;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+
+# --- Content ---
+st.title("بيانات الإنفاق الدولي")
+
 # البيانات
 data = """Country,Aid (AED),Aid (USD),Percentage
 Palestine,2454694547,668307799,58.1
@@ -45,13 +101,13 @@ Pakistan,933734,254216,0
 # قراءة البيانات
 df = pd.read_csv(StringIO(data))
 
-# نرسم الخريطة مع النِّسب المئوية
+# رسم الخريطة
 fig = go.Figure(data=go.Choropleth(
     locations=df["Country"],
     locationmode="country names",
     z=df["Percentage"],
-    text=df["Country"] + "<br>" + df["Percentage"].astype(str) + "%",
-    colorscale="Viridis",  # ألوان أوضح
+    text=df.apply(lambda row: f"{row['Country']}<br>Percentage: {row['Percentage']}%<br>Aid (AED): {row['Aid (AED)']:,}<br>Aid (USD): {row['Aid (USD)']:,}", axis=1),
+    colorscale="Viridis",  # ألوان واضحة
     autocolorscale=False,
     reversescale=False,
     marker_line_color="darkgray",
@@ -60,21 +116,10 @@ fig = go.Figure(data=go.Choropleth(
     hoverinfo="text"
 ))
 
-# نضيف النصوص (النسب المؤوية)
-for i, row in df.iterrows():
-    fig.add_scattergeo(
-        locations=[row["Country"]],
-        locationmode="country names",
-        text=str(row["Percentage"]) + "%",
-        mode="text",
-        showlegend=False,
-        textfont=dict(color="white", size=10)
-    )
-
 fig.update_layout(
-    title_text="UAE Aid Distribution by Country (with Percentages)",
+    title_text="UAE Aid Distribution by Country (Hover for AED/USD/Percentage)",
     geo=dict(showframe=False, showcoastlines=True, projection_type="equirectangular")
 )
 
-# عرض في ستريmlit
+# عرض في Streamlit
 st.plotly_chart(fig, use_container_width=True)
