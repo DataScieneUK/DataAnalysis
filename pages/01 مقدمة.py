@@ -109,7 +109,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.image("images/Image3.png", use_container_width =False, width=600)
+st.image("images/image3.png", use_container_width =False, width=600)
+
 
 
 
