@@ -1,10 +1,10 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+import plotly.graph_objects as go
+from io import StringIO
 
-# قراءة البيانات من النص مباشرة (ممكن تستبدلها بملف CSV)
-data = """
-Country,Aid (AED),Aid (USD),Percentage
+# البيانات
+data = """Country,Aid (AED),Aid (USD),Percentage
 Palestine,2454694547,668307799,58.1
 Chad,661153387,180003645,15.7
 Sudan,295271319,80389687,7
@@ -14,7 +14,7 @@ Syria,62126439,16914359,1.5
 South Sudan,57432496,15636400,1.4
 Ukraine,32424159,8827705,0.8
 Somalia,28837542,7851223,0.7
-Congo Democracy,21246905,5784619,0.5
+Democratic Republic of the Congo,21246905,5784619,0.5
 Yemen,18534328,5046101,0.4
 Brazil,18451409,5023525,0.4
 Kenya,16914650,4605132,0.4
@@ -31,7 +31,7 @@ Ivory Coast,3157380,859619,0.1
 Ethiopia,3125172,850850,0.1
 Guinea,2718957,740255,0.1
 Afghanistan,2257790,614699,0.1
-Burkina Faso Faso,2220329,604500,0.1
+Burkina Faso,2220329,604500,0.1
 Zambia,2084721,567580,0
 Thailand,1836500,500000,0
 Egypt,1821883,496020,0
@@ -42,27 +42,39 @@ Bangladesh,967300,263354,0
 Pakistan,933734,254216,0
 """
 
-# تحويل البيانات ل DataFrame
-df = pd.read_csv(pd.compat.StringIO(data))
+# قراءة البيانات
+df = pd.read_csv(StringIO(data))
 
-# رسم الخريطة
-fig = px.choropleth(
-    df,
-    locations="Country",
+# نرسم الخريطة مع النِّسب المئوية
+fig = go.Figure(data=go.Choropleth(
+    locations=df["Country"],
     locationmode="country names",
-    color="Aid (USD)",
-    hover_name="Country",
-    hover_data={
-        "Aid (AED)": True,
-        "Aid (USD)": True,
-        "Percentage": True,
-        "Country": False
-    },
-    color_continuous_scale="Blues",
-    projection="natural earth",
-    title="UAE Humanitarian Aid by Country (2024)"
+    z=df["Percentage"],
+    text=df["Country"] + "<br>" + df["Percentage"].astype(str) + "%",
+    colorscale="Viridis",  # ألوان أوضح
+    autocolorscale=False,
+    reversescale=False,
+    marker_line_color="darkgray",
+    marker_line_width=0.5,
+    colorbar_title="Aid %",
+    hoverinfo="text"
+))
+
+# نضيف النصوص (النسب المؤوية)
+for i, row in df.iterrows():
+    fig.add_scattergeo(
+        locations=[row["Country"]],
+        locationmode="country names",
+        text=str(row["Percentage"]) + "%",
+        mode="text",
+        showlegend=False,
+        textfont=dict(color="white", size=10)
+    )
+
+fig.update_layout(
+    title_text="UAE Aid Distribution by Country (with Percentages)",
+    geo=dict(showframe=False, showcoastlines=True, projection_type="equirectangular")
 )
 
-# عرض الخريطة في Streamlit
-st.title("UAE Humanitarian Aid Distribution (2024)")
+# عرض في ستريmlit
 st.plotly_chart(fig, use_container_width=True)
