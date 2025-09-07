@@ -102,7 +102,7 @@ fig = px.line(
 )
 
 # تعديل الشكل
-fig.update_layout(    xaxis_title="Year",    yaxis_title="Spending (Million USD)",    hovermode="x unified")
+fig.update_layout(    xaxis_title="Year",    yaxis_title="Spending (Million USD)",    hovermode="x unified",width=600, height=500)
 
 
 st.markdown(
@@ -248,6 +248,7 @@ with col3:
     fig_2024 = px.pie(df, values="2024", names="Category", 
                       title="إنفاق عام 2024 (%)")
     st.plotly_chart(fig_2024, use_container_width=True)
+
 
 
 
