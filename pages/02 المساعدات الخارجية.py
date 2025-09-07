@@ -129,7 +129,35 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.image("images/image5.png", use_container_width =False, width=600)
+
+
+# البيانات
+data = {
+    "Fund Type": ["Grant", "Loan"],
+    "2022": [1777.29, 1671.83],
+    "2023": [2557.48, 620.75],
+    "2024": [2414.53, 651.86]
+}
+
+df = pd.DataFrame(data)
+
+# اختيار السنة
+year = st.selectbox("اختر السنة:", ["2022", "2023", "2024"])
+
+# تجهيز البيانات للجراف
+df_plot = df[["Fund Type", year]].rename(columns={year: "Spending"})
+
+# عمل الجراف
+fig = px.bar(df_plot, x="Fund Type", y="Spending", 
+             color="Fund Type",
+             text="Spending",
+             title=f"Fund Type Spending in {year}")
+
+fig.update_traces(textposition="outside")
+
+st.plotly_chart(fig, use_container_width=True)
+
+
 
 #st.subheader(    "شملت المساعدات الخارجية لدولة الإمارات مجموعة واسعة من المشاريع التنموية والإنسانية والخيرية. ولتحديد القطاعات التي تم توجيه المساعدات إليها بدقة، اعتٌمِد تصنيف يرتكز على 'الغرض من النشاط، وفقًا لإطار عمل وتقارير المساعدات الخارجية لدولة الإمارات وسياساتها. ويهدف هذا النهج إلى ضمان الاتساق مع المعايير الدولية وتوضيح الأثر المرجو من المساعدات.")
 
@@ -145,6 +173,7 @@ st.markdown(
 
 
 st.image("images/image6.png", use_container_width =False, width=600)
+
 
 
 
