@@ -163,7 +163,7 @@ fig = px.bar(df_plot, x="Fund Type", y="Spending",
 
 
 fig.update_traces(textposition="outside")
-fig.update_layout(width=600, height=400)  # 👈 عرض أقل
+fig.update_layout(width=600, height=500)  # 👈 عرض أقل
 
 # نخلي الرسم في منتصف الصفحة
 col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
@@ -186,6 +186,7 @@ st.markdown(
 
 
 st.image("images/image6.png", use_container_width =False, width=600)
+
 
 
 
