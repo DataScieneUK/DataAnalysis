@@ -102,12 +102,7 @@ fig = px.line(
 )
 
 # تعديل الشكل
-fig.update_layout(
-    xaxis_title="Year",
-    yaxis_title="Spending (Million USD)",
-    hovermode="x unified"
-)
-
+#fig.update_layout(    xaxis_title="Year",    yaxis_title="Spending (Million USD)",    hovermode="x unified")
 
 
 st.markdown(
@@ -121,7 +116,7 @@ st.markdown(
 
 
 fig.update_traces(textposition="outside")
-fig.update_layout(width=600, height=500)  # 👈 عرض أقل
+fig.update_layout(    xaxis_title="Year",    yaxis_title="Spending (Million USD)",    hovermode="x unified",width=600, height=500)  # 👈 عرض أقل
 
 # نخلي الرسم في منتصف الصفحة
 col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
@@ -183,7 +178,8 @@ fig.update_layout(
         categoryarray=["2022", "2023", "2024"]
     ),
     yaxis_title="Spending (Million USD)",
-    hovermode="x unified"
+    hovermode="x unified",
+    width=600, height=500
 )
  
 
@@ -204,7 +200,7 @@ st.markdown(
 
 
 fig.update_traces(textposition="outside")
-fig.update_layout(width=600, height=500)  # 👈 عرض أقل
+#fig.update_layout(width=600, height=500)  # 👈 عرض أقل
 
 # نخلي الرسم في منتصف الصفحة
 col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
@@ -252,6 +248,7 @@ with col3:
     fig_2024 = px.pie(df, values="2024", names="Category", 
                       title="إنفاق عام 2024 (%)")
     st.plotly_chart(fig_2024, use_container_width=True)
+
 
 
 
