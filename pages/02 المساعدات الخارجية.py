@@ -227,7 +227,7 @@ fig.update_layout(
     xaxis_title="Year",
     yaxis_title="Spending (Million AED)",
     legend_title="Sector",
-    width=600, height=500
+    width=600, height=800
 )
 
 # عرض على Streamlit
@@ -243,6 +243,7 @@ fig.update_layout(
 col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
 with col2:
     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
