@@ -154,8 +154,8 @@ fig = px.bar(df_plot, x="Fund Type", y="Spending",
              title=f"Fund Type Spending in {year}")
 
 fig.update_traces(textposition="outside")
-fig.update_layout(width=600, height=500) 
-st.plotly_chart(fig, use_container_width=True)
+fig.update_layout(width=300, height=500) 
+st.plotly_chart(fig)
 
 
 
@@ -173,6 +173,7 @@ st.markdown(
 
 
 st.image("images/image6.png", use_container_width =False, width=600)
+
 
 
 
