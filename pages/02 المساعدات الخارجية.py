@@ -95,7 +95,7 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     fig_2022 = px.bar(df, x="Goal", y="2022", 
-                      title="Spending Goals 2022 (%)",
+                      title="النسب المؤية للإنفاق عبر الأهداف في 2022 (%)",
                       text="2022",
                       color="Goal")
     fig_2022.update_traces(textposition="outside")
@@ -103,7 +103,7 @@ with col1:
 
 with col2:
     fig_2023 = px.bar(df, x="Goal", y="2023", 
-                      title="Spending Goals 2023 (%)",
+                      title="النسب المؤية للإنفاق عبر الأهداف في 2023 (%)",
                       text="2023",
                       color="Goal")
     fig_2023.update_traces(textposition="outside")
@@ -111,7 +111,7 @@ with col2:
 
 with col3:
     fig_2024 = px.bar(df, x="Goal", y="2024", 
-                      title="Spending Goals 2024 (%)",
+                      title="النسب المؤية للإنفاق عبر الأهداف في 2024 (%)",
                       text="2024",
                       color="Goal")
     fig_2024.update_traces(textposition="outside")
@@ -158,7 +158,7 @@ df_plot = df[["Fund Type", year]].rename(columns={year: "Spending"})
 fig = px.bar(df_plot, x="Fund Type", y="Spending", 
              color="Fund Type",
              text="Spending",
-             title=f"Fund Type Spending in {year}")
+             title=f"الإنفاق عبر نوع الدعم {year}")
 
 
 
@@ -216,7 +216,7 @@ fig = px.bar(
     y="Spending",
     color="Sector",
     text="Spending",
-    title="📊 Spending by Sector (2022-2024)",
+    title="📊 الإنفاق عبر القطاع (2022-2024)",
     barmode="stack",
     height=600,
 )
@@ -243,6 +243,7 @@ fig.update_layout(
 col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
 with col2:
     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
