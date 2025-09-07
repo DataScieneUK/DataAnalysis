@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+import plotly.express as px
 
 # --- Page Config (لازم يكون أول حاجة) ---
 st.set_page_config(
@@ -77,7 +79,43 @@ st.markdown(
 )
 
 
-st.image("images/image4.png", use_container_width =False, width=600)
+
+# البيانات
+data = {
+    "Goal": ["Goal 1", "Goal 17", "Goal 3", "Goal 11", "Goal 2"],
+    "2022": [11.02, 51.26, 11.84, 7.92, 6.66],
+    "2023": [28.67, 17.85, 9.84, 10.65, 12.76],
+    "2024": [26.40, 21.51, 17.27, 9.80, 8.97]
+}
+
+df = pd.DataFrame(data)
+
+# أعمدة لعرض الرسومات جنب بعض
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    fig_2022 = px.bar(df, x="Goal", y="2022", 
+                      title="Spending Goals 2022 (%)",
+                      text="2022",
+                      color="Goal")
+    fig_2022.update_traces(textposition="outside")
+    st.plotly_chart(fig_2022, use_container_width=True)
+
+with col2:
+    fig_2023 = px.bar(df, x="Goal", y="2023", 
+                      title="Spending Goals 2023 (%)",
+                      text="2023",
+                      color="Goal")
+    fig_2023.update_traces(textposition="outside")
+    st.plotly_chart(fig_2023, use_container_width=True)
+
+with col3:
+    fig_2024 = px.bar(df, x="Goal", y="2024", 
+                      title="Spending Goals 2024 (%)",
+                      text="2024",
+                      color="Goal")
+    fig_2024.update_traces(textposition="outside")
+    st.plotly_chart(fig_2024, use_container_width=True)
 
 #st.subheader(    "شكلت المنح النسبة الأكبر من تقديم المساعدات الخارجية الإماراتية في عام 2024، بنسبة 78.7 في المئة من الإجمالي، مبلغ 8.87 مليار درهم إماراتي (2.4 مليار دولار أمريكي). وقد استفادت من هذه المنح 133 دولة، من بينها 38 دولة مصنفة ضمن أقل البلدان نمواً. حيث حصلت فلسطين على الحصة الأكبر بقيمة 2.62 مليار درهم إماراتي (712.89 مليون دولار أمريكي)، ما يمثل نسبة 29.5 في المئة من إجمالي المنح، تلتها اليمن بمبلغ 1.02 مليار درهم إماراتي (277.12 مليون دولار أمريكي) ما يمثل نسبة 11.5 في المئة من إجمالي المنح.")
 
@@ -107,6 +145,7 @@ st.markdown(
 
 
 st.image("images/image6.png", use_container_width =False, width=600)
+
 
 
 
