@@ -120,8 +120,16 @@ st.markdown(
 )
 
 
+fig.update_traces(textposition="outside")
+fig.update_layout(width=600, height=500)  # 👈 عرض أقل
 
-st.plotly_chart(fig, use_container_width=True)
+# نخلي الرسم في منتصف الصفحة
+col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
+with col2:
+    st.plotly_chart(fig, use_container_width=False)
+
+
+#st.plotly_chart(fig, use_container_width=True)
 
 
 
@@ -130,7 +138,6 @@ st.markdown(
     <p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
 بلغ إجمالي قيمة المساعدات الخارجية لدولة الإمارات خلال عام 2024 مبلغ 11.26 مليار درهم (3.07 مليار دولار أمريكي). 
 وتشمل المساعدات مجموعة متنوعة من الفئات، تم تصنيفها لأغراض التوثيق والتحليل والتوافق مع المعايير الدولية لتتبع وتسجيل المساعدات إلى ثلاث فئات رئيسية: المساعدات الإنسانية، والمساعدات التنموية، والمساعدات الخيرية. 
-
     </p>
     """,
     unsafe_allow_html=True
@@ -193,8 +200,16 @@ st.markdown(
 
 
 
-st.plotly_chart(fig, use_container_width=True)
+#st.plotly_chart(fig, use_container_width=True)
 
+
+fig.update_traces(textposition="outside")
+fig.update_layout(width=600, height=500)  # 👈 عرض أقل
+
+# نخلي الرسم في منتصف الصفحة
+col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
+with col2:
+    st.plotly_chart(fig, use_container_width=False)
 
 
 
@@ -237,6 +252,7 @@ with col3:
     fig_2024 = px.pie(df, values="2024", names="Category", 
                       title="إنفاق عام 2024 (%)")
     st.plotly_chart(fig_2024, use_container_width=True)
+
 
 
 
