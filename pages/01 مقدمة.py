@@ -118,10 +118,10 @@ st.markdown(
 # fig.update_traces(textposition="outside")
 # fig.update_layout(    xaxis_title="Year",    yaxis_title="Spending (Million USD)",    hovermode="x unified",width=600, height=500)  # 👈 عرض أقل
 
-# # نخلي الرسم في منتصف الصفحة
-# col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
-# with col2:
-#     st.plotly_chart(fig, use_container_width=False)
+# نخلي الرسم في منتصف الصفحة
+col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
+with col2:
+    st.plotly_chart(fig, use_container_width=False)
 
 
 st.plotly_chart(fig, use_container_width=True)
@@ -248,6 +248,7 @@ with col3:
     fig_2024 = px.pie(df, values="2024", names="Category", 
                       title="إنفاق عام 2024 (%)")
     st.plotly_chart(fig_2024, use_container_width=True)
+
 
 
 
