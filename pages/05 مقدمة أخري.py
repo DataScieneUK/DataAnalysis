@@ -76,7 +76,6 @@ st.markdown(
 # --- البيانات ---
 data = """Country,Spending in 2022,Spending in 2023,Spending in 2024
 Yemen Crisis (2015),90.82,161.99,276.65
-Syria Crisis,42.29,40.31,82.9
 Gaza conflict (2023),0.0,574.72,691.32
 Sudan conflict (2023),0.0,123.63,276.77
 """
@@ -91,6 +90,7 @@ df_long = df.melt(id_vars="Country",
 
 # تنظيف أسماء السنوات
 df_long["Year"] = df_long["Year"].str.replace("Spending in ", "")
+
 # --- رسم الجراف ---
 fig = px.line(
     df_long,
@@ -99,6 +99,62 @@ fig = px.line(
     color="Country",
     markers=True,
     title="UAE Humanitarian Spending by Crisis (2022–2024)"
+)
+
+# تعديل الشكل
+fig.update_layout(
+    xaxis_title="Year",
+    yaxis_title="Spending (Million USD)",
+    hovermode="x unified"
+)
+
+# عرض على Streamlit
+st.title("📊 المساعدات الإنسانية علي مدار السنوات الثلاثة الماضية")
+st.plotly_chart(fig, use_container_width=True)
+
+
+
+st.markdown(
+    """
+    <p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
+بلغ إجمالي قيمة المساعدات الخارجية لدولة الإمارات خلال عام 2024 مبلغ 11.26 مليار درهم (3.07 مليار دولار أمريكي). 
+وتشمل المساعدات مجموعة متنوعة من الفئات، تم تصنيفها لأغراض التوثيق والتحليل والتوافق مع المعايير الدولية لتتبع وتسجيل المساعدات إلى ثلاث فئات رئيسية: المساعدات الإنسانية، والمساعدات التنموية، والمساعدات الخيرية. 
+
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
+# --- البيانات ---
+data = """Category,Spending in 2022,Spending in 2023,Spending in 2024
+Humanitarian,435.86,1334.84,1149.3
+Development,2858.41,1718.77,1785.54
+Charity,154.85,124.62,131.55
+"""
+
+# قراءة البيانات
+df = pd.read_csv(StringIO(data))
+
+# تحويل البيانات من Wide إلى Long
+df_long = df.melt(
+    id_vars="Category", 
+    var_name="Year", 
+    value_name="Spending"
+)
+
+# تنظيف أسماء السنوات
+df_long["Year"] = df_long["Year"].str.replace("Spending in ", "")
+
+# --- رسم الجراف ---
+fig = px.line(
+    df_long,
+    x="Year",
+    y="Spending",
+    color="Category",
+    markers=True,
+    title="UAE Aid Spending by Category (2022–2024)"
 )
 
 # ضبط المحور الأفقي بحيث يظهر فقط 2022–2023–2024
@@ -113,11 +169,8 @@ fig.update_layout(
 )
 
 # عرض على Streamlit
-st.title("📊 Interactive Aid Spending Dashboard")
+st.title("📊 Aid Spending by Category (Interactive)")
 st.plotly_chart(fig, use_container_width=True)
-
-
-
 
 
 
