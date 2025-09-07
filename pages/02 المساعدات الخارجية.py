@@ -184,11 +184,65 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# البيانات
+data = {
+    "Sector": [
+        "Commodity Aid",
+        "Health",
+        "General Programme Assistance",
+        "Transport and Storage",
+        "Social Services",
+        "Other"
+    ],
+    "Spending in 2022": [276.36, 403.54, 1858.45, 97.82, 384.89, 428.06],
+    "Spending in 2023": [635.76, 488.19, 998.13, 149.29, 355.54, 551.33],
+    "Spending in 2024": [601.06, 510.06, 1063.07, 183.34, 243.18, 465.67],
+}
 
-st.image("images/image6.png", use_container_width =False, width=600)
+df = pd.DataFrame(data)
+
+# تحويل البيانات إلى long format عشان نرسم
+df_long = df.melt(id_vars="Sector", 
+                  var_name="Year", 
+                  value_name="Spending")
+
+# تنظيف اسم العمود (يبقى 2022 مش "Spending in 2022")
+df_long["Year"] = df_long["Year"].str.replace("Spending in ", "")
+
+# رسم Stacked Bar Chart
+fig = px.bar(
+    df_long,
+    x="Year",
+    y="Spending",
+    color="Sector",
+    text="Spending",
+    title="📊 Spending by Sector (2022-2024)",
+    barmode="stack",
+    height=600,
+)
+
+# تحسينات شكل
+fig.update_traces(texttemplate="%{text:.0f}", textposition="inside")
+fig.update_layout(
+    xaxis_title="Year",
+    yaxis_title="Spending (Million AED)",
+    legend_title="Sector",
+    width=600, height=500
+)
+
+# عرض على Streamlit
+# st.plotly_chart(fig, use_container_width=True)
 
 
 
+
+# fig.update_traces(textposition="outside")
+
+
+# نخلي الرسم في منتصف الصفحة
+col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
+with col2:
+    st.plotly_chart(fig, use_container_width=False)
 
 
 
