@@ -98,7 +98,7 @@ fig = px.line(
     y="Spending",
     color="Country",
     markers=True,
-    title="UAE Humanitarian Spending by Crisis (2022–2024)"
+    title="الدعم الإنساني للإمارات للأزمات و الكوارث (2022–2024)"
 )
 
 # تعديل الشكل
@@ -164,7 +164,7 @@ fig = px.line(
     y="Spending",
     color="Category",
     markers=True,
-    title="UAE Aid Spending by Category (2022–2024)"
+    title="الدعم الإنساني للإمارات عبر النوع (2022–2024)"
 )
 
 # ضبط المحور الأفقي بحيث يظهر فقط 2022–2023–2024
@@ -245,6 +245,7 @@ with col3:
     fig_2024 = px.pie(df, values="2024", names="Category", 
                       title="إنفاق عام 2024 (%)")
     st.plotly_chart(fig_2024, use_container_width=True)
+
 
 
 
