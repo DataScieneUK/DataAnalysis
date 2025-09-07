@@ -91,7 +91,6 @@ df_long = df.melt(id_vars="Country",
 
 # تنظيف أسماء السنوات
 df_long["Year"] = df_long["Year"].str.replace("Spending in ", "")
-
 # --- رسم الجراف ---
 fig = px.line(
     df_long,
@@ -102,9 +101,13 @@ fig = px.line(
     title="UAE Humanitarian Spending by Crisis (2022–2024)"
 )
 
-# تعديل الشكل
+# ضبط المحور الأفقي بحيث يظهر فقط 2022–2023–2024
 fig.update_layout(
-    xaxis_title="Year",
+    xaxis=dict(
+        title="Year",
+        categoryorder="array",
+        categoryarray=["2022", "2023", "2024"]
+    ),
     yaxis_title="Spending (Million USD)",
     hovermode="x unified"
 )
@@ -112,7 +115,6 @@ fig.update_layout(
 # عرض على Streamlit
 st.title("📊 Interactive Aid Spending Dashboard")
 st.plotly_chart(fig, use_container_width=True)
-
 
 
 
