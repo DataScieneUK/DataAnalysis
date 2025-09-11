@@ -180,9 +180,8 @@ df = pd.DataFrame(data)
 # --- تقسيم الصفحة ---
 col1, col2, col3 = st.columns([1,3,1])
 
-with col1:
-    # نعمل اختيار السنة أولاً
-    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
+# with col1:
+#     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
 
 # with col2:
 #     # نرسم الجراف بعد ما عرفنا selected_year
@@ -280,6 +279,7 @@ with col1:
 # col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
 # with col2:
 #     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
