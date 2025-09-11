@@ -131,7 +131,7 @@ with col2:
 
 
 # --- النص التوضيحي ---
-col1, col2, col3 = st.columns([1,3,1])  # العمود الأوسط أوسع
+# col1, col2, col3 = st.columns([1,3,1])  # العمود الأوسط أوسع
 
 # --- البيانات ---
 data = """Category,Spending in 2022,Spending in 2023,Spending in 2024
@@ -249,6 +249,7 @@ with col2:
 
 
  
+
 
 
 
