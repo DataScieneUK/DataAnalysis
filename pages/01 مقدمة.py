@@ -184,7 +184,7 @@ with col2:
 
 
 
-
+##################################################
 
 
 st.markdown(
@@ -231,13 +231,16 @@ fig.update_layout(
     title_font=dict(size=22)
 )
 
+# with col2:
+#     st.plotly_chart(fig, use_container_width=True)
+
+col1, col2, col3 = st.columns([1,2,1])
 with col2:
-    st.plotly_chart(fig, use_container_width=True)
-
-
+    st.plotly_chart(fig, use_container_width=False)
 
 
 
 
 
  
+
