@@ -206,9 +206,9 @@ data = {
 df = pd.DataFrame(data)
 
 # --- اختيار السنة من اليمين ---
-col1, col2 = st.columns([1, 3])
-with col1:
-    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
+# col1, col2 = st.columns([1, 3])
+# with col1:
+#     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
 
 # --- رسم الجراف ---
 fig = px.pie(
@@ -235,6 +235,13 @@ fig.update_layout(
 #     st.plotly_chart(fig, use_container_width=True)
 
 col1, col2, col3 = st.columns([1,2,1])
+
+
+with col1:
+    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
+
+
+
 with col2:
     st.plotly_chart(fig, use_container_width=False)
 
@@ -243,4 +250,5 @@ with col2:
 
 
  
+
 
