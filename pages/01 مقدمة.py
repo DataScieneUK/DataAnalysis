@@ -197,6 +197,51 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# # --- البيانات ---
+# data = {
+#     "Category": ["Humanitarian", "Development", "Charity"],
+#     "2022": [435.86, 2858.41, 154.85],
+#     "2023": [1334.84, 1718.77, 124.62],
+#     "2024": [1149.3, 1785.54, 131.55]
+# }
+# df = pd.DataFrame(data)
+
+ 
+# # --- رسم الجراف ---
+# fig = px.pie(
+#     df,
+#     values=selected_year,
+#     names="Category",
+#     title=f"النسب المئوية للإنفاق في {selected_year}",
+#     hole=0.4  # لعمل Donut Chart
+# )
+
+# fig.update_traces(
+#     textinfo="percent+label",
+#     pull=[0.05, 0.05, 0.05]  # لسحب القطاعات للخارج قليلاً لزيادة الوضوح
+# )
+
+# fig.update_layout(
+#     width=500,
+#     height=500,
+#     title_x=0.5,
+#     title_font=dict(size=22)
+# )
+ 
+# col1, col2, col3 = st.columns([1,3,1])
+
+
+# with col1:
+#     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
+ 
+# with col2:
+#     st.plotly_chart(fig, use_container_width=False)
+
+
+
+
+
+
 # --- البيانات ---
 data = {
     "Category": ["Humanitarian", "Development", "Charity"],
@@ -206,55 +251,37 @@ data = {
 }
 df = pd.DataFrame(data)
 
-# --- اختيار السنة من اليمين ---
-# col1, col2 = st.columns([1, 3])
-# with col1:
-#     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
-
-# --- رسم الجراف ---
-fig = px.pie(
-    df,
-    values=selected_year,
-    names="Category",
-    title=f"النسب المئوية للإنفاق في {selected_year}",
-    hole=0.4  # لعمل Donut Chart
-)
-
-fig.update_traces(
-    textinfo="percent+label",
-    pull=[0.05, 0.05, 0.05]  # لسحب القطاعات للخارج قليلاً لزيادة الوضوح
-)
-
-fig.update_layout(
-    width=500,
-    height=500,
-    title_x=0.5,
-    title_font=dict(size=22)
-)
-
-# with col2:
-#     st.plotly_chart(fig, use_container_width=True)
-
+# --- تقسيم الصفحة ---
 col1, col2, col3 = st.columns([1,3,1])
 
-
 with col1:
+    # نعمل اختيار السنة أولاً
     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
-# with col1:
-#     selected_year = st.radio(
-#         "📅 اختر السنة:",
-#         options=sorted(df_long["Year"].unique()),
-#         index=0,
-#         key="year_selector"
-#     )
+
 with col2:
+    # نرسم الجراف بعد ما عرفنا selected_year
+    fig = px.pie(
+        df,
+        values=selected_year,  # هنا الآن القيمة محدثة حسب الاختيار
+        names="Category",
+        title=f"النسب المئوية للإنفاق في {selected_year}",
+        hole=0.4
+    )
+
+    fig.update_traces(
+        textinfo="percent+label",
+        pull=[0.05, 0.05, 0.05]
+    )
+
+    fig.update_layout(
+        width=500,
+        height=500,
+        title_x=0.5,
+        title_font=dict(size=22)
+    )
+
     st.plotly_chart(fig, use_container_width=False)
 
-
-
-
-
- 
 
 
 
