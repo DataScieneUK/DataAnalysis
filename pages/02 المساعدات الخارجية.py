@@ -170,6 +170,67 @@ with col2:
 # import pandas as pd
 # import plotly.express as px
 
+# # --- البيانات ---
+# data = {
+#     "Fund Type": ["Grant", "Loan"],
+#     "2022": [1777.29, 1671.83],
+#     "2023": [2557.48, 620.75],
+#     "2024": [2414.53, 651.86]
+# }
+# df = pd.DataFrame(data)
+
+# # تحويل البيانات من Wide إلى Long لتسهيل الرسم
+# df_long = df.melt(
+#     id_vars="Fund Type",
+#     var_name="Year",
+#     value_name="Spending"
+# )
+
+# # --- تقسيم الأعمدة ---
+# col1, col2, col3 = st.columns([1, 2, 1])
+
+# with col1:
+#     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
+
+# # --- رسم الجراف كـ Line Chart ---
+# fig = px.line(
+#     df_long,
+#     x="Year",
+#     y="Spending",
+#     color="Fund Type",
+#     markers=True,
+#     title="📈 تطور الإنفاق عبر نوع الدعم (2022–2024)"
+# )
+
+# # تمييز السنة المختارة
+# highlight_data = df_long[df_long["Year"] == selected_year]
+# fig.add_scatter(
+#     x=highlight_data["Year"],
+#     y=highlight_data["Spending"],
+#     mode="markers+text",
+#     marker=dict(size=14, color="red", symbol="diamond"),
+#     text=highlight_data["Spending"],
+#     textposition="top center",
+#     name=f"القيمة في {selected_year}"
+# )
+
+# fig.update_layout(
+#     xaxis=dict(categoryorder="array", categoryarray=["2022", "2023", "2024"]),
+#     yaxis_title="Spending (Million USD)",
+#     width=700,
+#     height=500,
+#     title_x=0.5,
+#     title_font=dict(size=22)
+# )
+
+# # --- عرض الرسم في المنتصف ---
+# with col2:
+#     st.plotly_chart(fig, use_container_width=False)
+
+ 
+
+st.set_page_config(layout="wide")
+
 # --- البيانات ---
 data = {
     "Fund Type": ["Grant", "Loan"],
@@ -179,20 +240,22 @@ data = {
 }
 df = pd.DataFrame(data)
 
-# تحويل البيانات من Wide إلى Long لتسهيل الرسم
-df_long = df.melt(
-    id_vars="Fund Type",
-    var_name="Year",
-    value_name="Spending"
-)
+# تحويل من Wide إلى Long لسهولة الرسم
+df_long = df.melt(id_vars="Fund Type", var_name="Year", value_name="Spending")
 
-# --- تقسيم الأعمدة ---
-col1, col2, col3 = st.columns([1, 2, 1])
+# --- تخطيط الأعمدة (محاذاة radio و الرسم) ---
+col_left, col_center, col_right = st.columns([1, 3, 1])
 
-with col1:
-    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
+# ضع الـ radio في العمود الأيمن أو الأيسر كما تريد — لكن امنحه key فريد
+with col_left:
+    selected_year = st.radio(
+        "اختر السنة:",
+        options=["2022", "2023", "2024"],
+        index=2,
+        key="year_selector_main"   # <-- مفتاح فريد هنا
+    )
 
-# --- رسم الجراف كـ Line Chart ---
+# رسم Line Chart يوضح تطور كل Fund Type عبر السنوات
 fig = px.line(
     df_long,
     x="Year",
@@ -202,14 +265,14 @@ fig = px.line(
     title="📈 تطور الإنفاق عبر نوع الدعم (2022–2024)"
 )
 
-# تمييز السنة المختارة
+# تمييز النقاط للسنة المختارة (يظهر نقاط حمراء وقيم فوقها)
 highlight_data = df_long[df_long["Year"] == selected_year]
 fig.add_scatter(
     x=highlight_data["Year"],
     y=highlight_data["Spending"],
     mode="markers+text",
-    marker=dict(size=14, color="red", symbol="diamond"),
-    text=highlight_data["Spending"],
+    marker=dict(size=12, color="red", symbol="diamond"),
+    text=highlight_data["Spending"].round(2).astype(str),
     textposition="top center",
     name=f"القيمة في {selected_year}"
 )
@@ -218,13 +281,12 @@ fig.update_layout(
     xaxis=dict(categoryorder="array", categoryarray=["2022", "2023", "2024"]),
     yaxis_title="Spending (Million USD)",
     width=700,
-    height=500,
-    title_x=0.5,
-    title_font=dict(size=22)
+    height=480,
+    title_x=0.5
 )
 
-# --- عرض الرسم في المنتصف ---
-with col2:
+# عرض الرسم في العمود الأوسط
+with col_center:
     st.plotly_chart(fig, use_container_width=False)
 
 
@@ -297,6 +359,7 @@ with col2:
 # col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
 # with col2:
 #     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
