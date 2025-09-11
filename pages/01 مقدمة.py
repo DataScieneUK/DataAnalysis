@@ -187,14 +187,6 @@ with col2:
 
 
 
- 
-st.set_page_config(layout="wide")
-
---- العنوان والنص التوضيحي ---
-col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
-with col2:
-    st.plotly_chart(fig, use_container_width=False)
-
 st.markdown(
     """
     <p style='color:#5d6063; font-size:25px; font-weight:bold; text-align:center;'>
@@ -241,6 +233,7 @@ st.markdown(
 
 # with col2:
 #     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
