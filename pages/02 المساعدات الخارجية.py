@@ -167,20 +167,13 @@ with col2:
 
 
 
+
 # --- البيانات ---
-# data = {
-#     "Category": ["Humanitarian", "Development", "Charity"],
-#     "2022": [435.86, 2858.41, 154.85],
-#     "2023": [1334.84, 1718.77, 124.62],
-#     "2024": [1149.3, 1785.54, 131.55]
-# }
-
-
 data = {
-    "Fund Type": ["Grant", "Loan"],
-    "2022": [1777.29, 1671.83],
-    "2023": [2557.48, 620.75],
-    "2024": [2414.53, 651.86]
+    "Category": ["Humanitarian", "Development", "Charity"],
+    "2022": [435.86, 2858.41, 154.85],
+    "2023": [1334.84, 1718.77, 124.62],
+    "2024": [1149.3, 1785.54, 131.55]
 }
 df = pd.DataFrame(data)
 
@@ -197,7 +190,7 @@ with col2:
         df,
         values=selected_year,  # هنا الآن القيمة محدثة حسب الاختيار
         names="Category",
-        title=f"الإنفاق عبر نوع الدعم في {selected_year}",
+        title=f"النسب المئوية للإنفاق في {selected_year}",
         hole=0.4
     )
 
@@ -215,56 +208,6 @@ with col2:
 
     st.plotly_chart(fig, use_container_width=False)
 
-
-
-
-
-# import streamlit as st
-# import pandas as pd
-# import plotly.express as px
-
-# --- البيانات ---
-# data = {
-#     "Fund Type": ["Grant", "Loan"],
-#     "2022": [1777.29, 1671.83],
-#     "2023": [2557.48, 620.75],
-#     "2024": [2414.53, 651.86]
-# }
-# df = pd.DataFrame(data)
-
-# # --- تقسيم الأعمدة ---
-# col1, col2, col3 = st.columns([1, 2, 1])
-
-# with col1:
-#     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
-
-# # تجهيز البيانات للسنة المختارة
-# df_plot = df[["Fund Type", selected_year]].rename(columns={selected_year: "Spending"})
-
-# # --- رسم الجراف كـ Pie (Donut) ---
-# fig = px.pie(
-#     df_plot,
-#     values="Spending",
-#     names="Fund Type",
-#     hole=0.4,  # Donut chart
-#     title=f"الإنفاق عبر نوع الدعم في {selected_year}"
-# )
-
-# fig.update_traces(
-#     textinfo="percent+label",
-#     pull=[0.05, 0.05]  # سحب القطاعات للخارج قليلاً
-# )
-
-# fig.update_layout(
-#     width=500,
-#     height=500,
-#     title_x=0.5,
-#     title_font=dict(size=22)
-# )
-
-# # --- عرض الرسم في المنتصف ---
-# with col2:
-#     st.plotly_chart(fig, use_container_width=False)
 
 
 
@@ -337,6 +280,7 @@ fig.update_layout(
 col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
 with col2:
     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
