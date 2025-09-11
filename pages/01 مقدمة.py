@@ -178,37 +178,99 @@ with col2:
 
 
 
-st.markdown(
-    """
-    <p style='color:#5d6063; font-size:25px; font-weight:bold; text-align:justify;'>
-📊 المساعدات الإنسانية علي مدار السنوات الثلاثة الماضية
-    </p>
-    """,
-    unsafe_allow_html=True
-)
+# st.markdown(
+#     """
+#     <p style='color:#5d6063; font-size:25px; font-weight:bold; text-align:justify;'>
+# 📊 المساعدات الإنسانية علي مدار السنوات الثلاثة الماضية
+#     </p>
+#     """,
+#     unsafe_allow_html=True
+# )
 
 
-# نخلي الرسم في منتصف الصفحة
+# # نخلي الرسم في منتصف الصفحة
+# col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
+# with col2:
+#     st.plotly_chart(fig, use_container_width=False)
+
+
+# # st.plotly_chart(fig, use_container_width=True)
+
+
+
+# st.markdown(
+#     """
+#     <p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
+# بلغ إجمالي قيمة المساعدات الخارجية لدولة الإمارات خلال عام 2024 مبلغ 11.26 مليار درهم (3.07 مليار دولار أمريكي). 
+# وتشمل المساعدات مجموعة متنوعة من الفئات، تم تصنيفها لأغراض التوثيق والتحليل والتوافق مع المعايير الدولية لتتبع وتسجيل المساعدات إلى ثلاث فئات رئيسية: المساعدات الإنسانية، والمساعدات التنموية، والمساعدات الخيرية. 
+#     </p>
+#     """,
+#     unsafe_allow_html=True
+# )
+
+
+
+# # --- البيانات ---
+# data = """Category,Spending in 2022,Spending in 2023,Spending in 2024
+# Humanitarian,435.86,1334.84,1149.3
+# Development,2858.41,1718.77,1785.54
+# Charity,154.85,124.62,131.55
+# """
+
+# # قراءة البيانات
+# df = pd.read_csv(StringIO(data))
+
+# # تحويل البيانات من Wide إلى Long
+# df_long = df.melt(
+#     id_vars="Category", 
+#     var_name="Year", 
+#     value_name="Spending"
+# )
+
+# # تنظيف أسماء السنوات
+# df_long["Year"] = df_long["Year"].str.replace("Spending in ", "")
+
+# # --- رسم الجراف ---
+# fig = px.line(
+#     df_long,
+#     x="Year",
+#     y="Spending",
+#     color="Category",
+#     markers=True,
+#     title="الدعم الإنساني للإمارات عبر النوع (2022–2024)"
+# )
+
+# # ضبط المحور الأفقي بحيث يظهر فقط 2022–2023–2024
+# fig.update_layout(
+#     xaxis=dict(
+#         title="Year",
+#         categoryorder="array",
+#         categoryarray=["2022", "2023", "2024"]
+#     ),
+#     yaxis_title="Spending (Million USD)",
+#     hovermode="x unified",
+#     width=800, height=500
+# )
+ 
+# import streamlit as st
+# import pandas as pd
+# import plotly.express as px
+# from io import StringIO
+
+st.set_page_config(layout="wide")
+
+# --- النص التوضيحي ---
 col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
 with col2:
-    st.plotly_chart(fig, use_container_width=False)
-
-
-# st.plotly_chart(fig, use_container_width=True)
-
-
-
-st.markdown(
-    """
-    <p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
-بلغ إجمالي قيمة المساعدات الخارجية لدولة الإمارات خلال عام 2024 مبلغ 11.26 مليار درهم (3.07 مليار دولار أمريكي). 
-وتشمل المساعدات مجموعة متنوعة من الفئات، تم تصنيفها لأغراض التوثيق والتحليل والتوافق مع المعايير الدولية لتتبع وتسجيل المساعدات إلى ثلاث فئات رئيسية: المساعدات الإنسانية، والمساعدات التنموية، والمساعدات الخيرية. 
-    </p>
-    """,
-    unsafe_allow_html=True
-)
-
-
+    st.markdown(
+        """
+        <p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
+        بلغ إجمالي قيمة المساعدات الخارجية لدولة الإمارات خلال عام 2024 مبلغ 11.26 مليار درهم (3.07 مليار دولار أمريكي). 
+        وتشمل المساعدات مجموعة متنوعة من الفئات، تم تصنيفها لأغراض التوثيق والتحليل والتوافق مع المعايير الدولية لتتبع وتسجيل المساعدات إلى ثلاث فئات رئيسية: المساعدات الإنسانية، والمساعدات التنموية، والمساعدات الخيرية. 
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
 
 # --- البيانات ---
 data = """Category,Spending in 2022,Spending in 2023,Spending in 2024
@@ -230,39 +292,46 @@ df_long = df.melt(
 # تنظيف أسماء السنوات
 df_long["Year"] = df_long["Year"].str.replace("Spending in ", "")
 
-# --- رسم الجراف ---
-fig = px.line(
+# --- رسم الجراف الجديد (Grouped Bar Chart) ---
+fig = px.bar(
     df_long,
     x="Year",
     y="Spending",
     color="Category",
-    markers=True,
-    title="الدعم الإنساني للإمارات عبر النوع (2022–2024)"
+    barmode="group",  # يعرض كل فئة بجانب الأخرى للسنة نفسها
+    text="Spending",
+    title="💰 توزيع المساعدات الإماراتية حسب الفئة (2022 – 2024)"
 )
 
-# ضبط المحور الأفقي بحيث يظهر فقط 2022–2023–2024
+fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
+
 fig.update_layout(
     xaxis=dict(
-        title="Year",
+        title="السنة",
         categoryorder="array",
         categoryarray=["2022", "2023", "2024"]
     ),
     yaxis_title="Spending (Million USD)",
     hovermode="x unified",
-    width=800, height=500
+    width=800, height=500,
+    legend=dict(title="الفئة")
 )
- 
+
+# نخلي الرسم في منتصف الصفحة
+col1, col2, col3 = st.columns([1,2,1])
+with col2:
+    st.plotly_chart(fig, use_container_width=False)
 
 
 
-st.markdown(
-    """
-    <p style='color:#5d6063; font-size:25px; font-weight:bold; text-align:justify;'>
-📊 أنواع المساعدات الإنسانية علي مدار السنوات الثلاثة الماضية
-    </p>
-    """,
-    unsafe_allow_html=True
-)
+# st.markdown(
+#     """
+#     <p style='color:#5d6063; font-size:25px; font-weight:bold; text-align:justify;'>
+# 📊 أنواع المساعدات الإنسانية علي مدار السنوات الثلاثة الماضية
+#     </p>
+#     """,
+#     unsafe_allow_html=True
+# )
 
 
 
@@ -273,74 +342,132 @@ st.markdown(
 #fig.update_layout(width=600, height=500)  # 👈 عرض أقل
 
 # # نخلي الرسم في منتصف الصفحة
+# col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
+# with col2:
+#     st.plotly_chart(fig, use_container_width=False)
+
+
+
+# st.markdown(
+#     """
+#     <p style='color:#5d6063; font-size:25px; font-weight:bold; text-align:justify;'>
+# و هنا لعرض النسب المئوية
+#     </p>
+#     """,
+#     unsafe_allow_html=True
+# )
+
+
+
+
+# # البيانات
+# data = {
+#     "Category": ["Humanitarian", "Development", "Charity"],
+#     "2022": [435.86, 2858.41, 154.85],
+#     "2023": [1334.84, 1718.77, 124.62],
+#     "2024": [1149.3, 1785.54, 131.55]
+# }
+
+# df = pd.DataFrame(data)
+
+# # إنشاء الأعمدة لعرض 3 جرافات جنب بعض
+# col1, col2, col3 = st.columns(3)
+
+# with col1:
+#     fig_2022 = px.pie(df, values="2022", names="Category", 
+#                       title="إنفاق عام 2022 (%)")
+#     st.plotly_chart(fig_2022, use_container_width=True)
+
+# with col2:
+#     fig_2023 = px.pie(df, values="2023", names="Category", 
+#                       title="إنفاق عام 2023 (%)")
+#     st.plotly_chart(fig_2023, use_container_width=True)
+
+# with col3:
+#     fig_2024 = px.pie(df, values="2024", names="Category", 
+#                       title="إنفاق عام 2024 (%)")
+#     st.plotly_chart(fig_2024, use_container_width=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import streamlit as st
+# import pandas as pd
+# import plotly.express as px
+
+st.set_page_config(layout="wide")
+
+# --- العنوان والنص التوضيحي ---
 col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
 with col2:
     st.plotly_chart(fig, use_container_width=False)
 
-
-
 st.markdown(
     """
-    <p style='color:#5d6063; font-size:25px; font-weight:bold; text-align:justify;'>
-و هنا لعرض النسب المئوية
+    <p style='color:#5d6063; font-size:25px; font-weight:bold; text-align:center;'>
+    🎯 اختر السنة لعرض النسب المئوية للفئات
     </p>
     """,
     unsafe_allow_html=True
 )
 
-
-
-
-# البيانات
+# --- البيانات ---
 data = {
     "Category": ["Humanitarian", "Development", "Charity"],
     "2022": [435.86, 2858.41, 154.85],
     "2023": [1334.84, 1718.77, 124.62],
     "2024": [1149.3, 1785.54, 131.55]
 }
-
 df = pd.DataFrame(data)
 
-# إنشاء الأعمدة لعرض 3 جرافات جنب بعض
-col1, col2, col3 = st.columns(3)
-
+# --- اختيار السنة من اليمين ---
+col1, col2 = st.columns([1, 4])
 with col1:
-    fig_2022 = px.pie(df, values="2022", names="Category", 
-                      title="إنفاق عام 2022 (%)")
-    st.plotly_chart(fig_2022, use_container_width=True)
+    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
+
+# --- رسم الجراف ---
+fig = px.pie(
+    df,
+    values=selected_year,
+    names="Category",
+    title=f"النسب المئوية للإنفاق في {selected_year}",
+    hole=0.4  # لعمل Donut Chart
+)
+
+fig.update_traces(
+    textinfo="percent+label",
+    pull=[0.05, 0.05, 0.05]  # لسحب القطاعات للخارج قليلاً لزيادة الوضوح
+)
+
+fig.update_layout(
+    width=500,
+    height=500,
+    title_x=0.5,
+    title_font=dict(size=22)
+)
 
 with col2:
-    fig_2023 = px.pie(df, values="2023", names="Category", 
-                      title="إنفاق عام 2023 (%)")
-    st.plotly_chart(fig_2023, use_container_width=True)
-
-with col3:
-    fig_2024 = px.pie(df, values="2024", names="Category", 
-                      title="إنفاق عام 2024 (%)")
-    st.plotly_chart(fig_2024, use_container_width=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    st.plotly_chart(fig, use_container_width=False)
