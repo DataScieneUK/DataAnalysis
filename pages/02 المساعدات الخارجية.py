@@ -123,90 +123,109 @@ with col2:
 
 
 
-# البيانات
+# # البيانات
+# data = {
+#     "Fund Type": ["Grant", "Loan"],
+#     "2022": [1777.29, 1671.83],
+#     "2023": [2557.48, 620.75],
+#     "2024": [2414.53, 651.86]
+# }
+
+# df = pd.DataFrame(data)
+
+# # اختيار السنة
+# #year = st.selectbox("اختر السنة:", ["2022", "2023", "2024"])
+
+# # تقسيم الأعمدة (الأوسط أوسع شوية)
+# col1, col2, col3 = st.columns([1,2,1])
+
+# with col2:  # 👈 هنا نحط الـ selectbox
+#     year = st.selectbox("اختر السنة:", ["2022", "2023", "2024"])
+
+
+# # تجهيز البيانات للجراف
+# df_plot = df[["Fund Type", year]].rename(columns={year: "Spending"})
+
+# # عمل الجراف
+# fig = px.bar(df_plot, x="Fund Type", y="Spending", 
+#              color="Fund Type",
+#              text="Spending",
+#              title=f"الإنفاق عبر نوع الدعم {year}")
+
+
+
+# fig.update_traces(textposition="outside")
+# fig.update_layout(width=600, height=500)  # 👈 عرض أقل
+
+# # نخلي الرسم في منتصف الصفحة
+# col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
+# with col2:
+#     st.plotly_chart(fig, use_container_width=False)
+
+
+
+
+
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+# --- البيانات ---
 data = {
     "Fund Type": ["Grant", "Loan"],
     "2022": [1777.29, 1671.83],
     "2023": [2557.48, 620.75],
     "2024": [2414.53, 651.86]
 }
-
 df = pd.DataFrame(data)
 
-# اختيار السنة
-#year = st.selectbox("اختر السنة:", ["2022", "2023", "2024"])
+# تحويل البيانات من Wide إلى Long لتسهيل الرسم
+df_long = df.melt(
+    id_vars="Fund Type",
+    var_name="Year",
+    value_name="Spending"
+)
 
-# تقسيم الأعمدة (الأوسط أوسع شوية)
-col1, col2, col3 = st.columns([1,2,1])
+# --- تقسيم الأعمدة ---
+col1, col2, col3 = st.columns([1, 2, 1])
 
-with col2:  # 👈 هنا نحط الـ selectbox
-    year = st.selectbox("اختر السنة:", ["2022", "2023", "2024"])
+with col1:
+    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
 
+# --- رسم الجراف كـ Line Chart ---
+fig = px.line(
+    df_long,
+    x="Year",
+    y="Spending",
+    color="Fund Type",
+    markers=True,
+    title="📈 تطور الإنفاق عبر نوع الدعم (2022–2024)"
+)
 
-# تجهيز البيانات للجراف
-df_plot = df[["Fund Type", year]].rename(columns={year: "Spending"})
+# تمييز السنة المختارة
+highlight_data = df_long[df_long["Year"] == selected_year]
+fig.add_scatter(
+    x=highlight_data["Year"],
+    y=highlight_data["Spending"],
+    mode="markers+text",
+    marker=dict(size=14, color="red", symbol="diamond"),
+    text=highlight_data["Spending"],
+    textposition="top center",
+    name=f"القيمة في {selected_year}"
+)
 
-# عمل الجراف
-fig = px.bar(df_plot, x="Fund Type", y="Spending", 
-             color="Fund Type",
-             text="Spending",
-             title=f"الإنفاق عبر نوع الدعم {year}")
+fig.update_layout(
+    xaxis=dict(categoryorder="array", categoryarray=["2022", "2023", "2024"]),
+    yaxis_title="Spending (Million USD)",
+    width=700,
+    height=500,
+    title_x=0.5,
+    title_font=dict(size=22)
+)
 
-
-
-fig.update_traces(textposition="outside")
-fig.update_layout(width=600, height=500)  # 👈 عرض أقل
-
-# نخلي الرسم في منتصف الصفحة
-col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
+# --- عرض الرسم في المنتصف ---
 with col2:
     st.plotly_chart(fig, use_container_width=False)
-
-
-
-#st.subheader(    "شملت المساعدات الخارجية لدولة الإمارات مجموعة واسعة من المشاريع التنموية والإنسانية والخيرية. ولتحديد القطاعات التي تم توجيه المساعدات إليها بدقة، اعتٌمِد تصنيف يرتكز على 'الغرض من النشاط، وفقًا لإطار عمل وتقارير المساعدات الخارجية لدولة الإمارات وسياساتها. ويهدف هذا النهج إلى ضمان الاتساق مع المعايير الدولية وتوضيح الأثر المرجو من المساعدات.")
-
-# st.set_page_config(layout="wide")
-
-
-# # --- البيانات ---
-# data = {
-#     "Category": ["Humanitarian", "Development", "Charity"],
-#     "2022": [435.86, 2858.41, 154.85],
-#     "2023": [1334.84, 1718.77, 124.62],
-#     "2024": [1149.3, 1785.54, 131.55]
-# }
-# df = pd.DataFrame(data)
-
-# col1, col2, col3 = st.columns([1,3,1])
-
-# with col1:
-#     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
-
-# with col2:
-#     fig = px.pie(
-#         df,
-#         values=selected_year,  # هنا الآن القيمة محدثة حسب الاختيار
-#         names="Category",
-#         title=f"النسب المئوية للإنفاق في {selected_year}",
-#         hole=0.4
-#     )
-
-#     fig.update_traces(
-#         textinfo="percent+label",
-#         pull=[0.05, 0.05, 0.05]
-#     )
-
-#     fig.update_layout(
-#         width=500,
-#         height=500,
-#         title_x=0.5,
-#         title_font=dict(size=22)
-#     )
-
-#     st.plotly_chart(fig, use_container_width=False)
-
-
 
 
 ###################################################################
@@ -278,6 +297,7 @@ with col2:
 # col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
 # with col2:
 #     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
