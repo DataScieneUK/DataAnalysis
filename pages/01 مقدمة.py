@@ -87,6 +87,14 @@ df_long["Year"] = df_long["Year"].str.replace("Spending in ", "")
 
 # تقسيم الصفحة لعمودين (يمين لزر اختيار السنة، شمال للجراف)
 # col1, col2 = st.columns([1, 3])
+col1, col2, col3 = st.columns([1,2,1])
+with col1:
+    selected_year = st.radio(
+        "📅 اختر السنة:",
+        options=sorted(df_long["Year"].unique()),
+        index=0,
+        key="year_selector"
+    )
 
 
 # فلترة البيانات على السنة المختارة
@@ -112,14 +120,6 @@ fig.update_layout(
     width=800,
     margin=dict(l=20, r=20, t=60, b=20)
 )
-col1, col2, col3 = st.columns([1,2,1])
-with col1:
-    selected_year = st.radio(
-        "📅 اختر السنة:",
-        options=sorted(df_long["Year"].unique()),
-        index=0,
-        key="year_selector"
-    )
 
 with col2:
     st.plotly_chart(fig, use_container_width=False)
@@ -249,6 +249,7 @@ with col2:
 
 
  
+
 
 
 
