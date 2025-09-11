@@ -188,59 +188,60 @@ with col2:
 
 
  
-st.set_page_config(layout="wide")
+# st.set_page_config(layout="wide")
 
---- العنوان والنص التوضيحي ---
-col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
-with col2:
-    st.plotly_chart(fig, use_container_width=False)
+# --- العنوان والنص التوضيحي ---
+# col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
+# with col2:
+#     st.plotly_chart(fig, use_container_width=False)
 
-st.markdown(
-    """
-    <p style='color:#5d6063; font-size:25px; font-weight:bold; text-align:center;'>
-    🎯 اختر السنة لعرض النسب المئوية للفئات
-    </p>
-    """,
-    unsafe_allow_html=True
-)
+# st.markdown(
+#     """
+#     <p style='color:#5d6063; font-size:25px; font-weight:bold; text-align:center;'>
+#     🎯 اختر السنة لعرض النسب المئوية للفئات
+#     </p>
+#     """,
+#     unsafe_allow_html=True
+# )
 
-# --- البيانات ---
-data = {
-    "Category": ["Humanitarian", "Development", "Charity"],
-    "2022": [435.86, 2858.41, 154.85],
-    "2023": [1334.84, 1718.77, 124.62],
-    "2024": [1149.3, 1785.54, 131.55]
-}
-df = pd.DataFrame(data)
+# # --- البيانات ---
+# data = {
+#     "Category": ["Humanitarian", "Development", "Charity"],
+#     "2022": [435.86, 2858.41, 154.85],
+#     "2023": [1334.84, 1718.77, 124.62],
+#     "2024": [1149.3, 1785.54, 131.55]
+# }
+# df = pd.DataFrame(data)
 
-# --- اختيار السنة من اليمين ---
-col1, col2 = st.columns([1, 4])
-with col1:
-    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
+# # --- اختيار السنة من اليمين ---
+# col1, col2 = st.columns([1, 4])
+# with col1:
+#     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
 
-# --- رسم الجراف ---
-fig = px.pie(
-    df,
-    values=selected_year,
-    names="Category",
-    title=f"النسب المئوية للإنفاق في {selected_year}",
-    hole=0.4  # لعمل Donut Chart
-)
+# # --- رسم الجراف ---
+# fig = px.pie(
+#     df,
+#     values=selected_year,
+#     names="Category",
+#     title=f"النسب المئوية للإنفاق في {selected_year}",
+#     hole=0.4  # لعمل Donut Chart
+# )
 
-fig.update_traces(
-    textinfo="percent+label",
-    pull=[0.05, 0.05, 0.05]  # لسحب القطاعات للخارج قليلاً لزيادة الوضوح
-)
+# fig.update_traces(
+#     textinfo="percent+label",
+#     pull=[0.05, 0.05, 0.05]  # لسحب القطاعات للخارج قليلاً لزيادة الوضوح
+# )
 
-fig.update_layout(
-    width=500,
-    height=500,
-    title_x=0.5,
-    title_font=dict(size=22)
-)
+# fig.update_layout(
+#     width=500,
+#     height=500,
+#     title_x=0.5,
+#     title_font=dict(size=22)
+# )
 
-with col2:
-    st.plotly_chart(fig, use_container_width=False)
+# with col2:
+#     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
