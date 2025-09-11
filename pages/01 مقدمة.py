@@ -242,11 +242,6 @@ with col2:
 
 
 
-
-# import streamlit as st
-# import pandas as pd
-# import plotly.express as px
-
 # البيانات
 data = {
     "Category": ["Humanitarian", "Development", "Charity"],
@@ -256,10 +251,10 @@ data = {
 }
 df = pd.DataFrame(data)
 
-# اختيار السنة
-# col1, col2 = st.columns([1, 4])
-# with col1:
-#     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
+
+col1, col2 = st.columns([1, 4])
+with col1:
+    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
 
 # fig = px.pie(
 #     df,
@@ -275,6 +270,7 @@ df = pd.DataFrame(data)
 # col_a, col_b, col_c = st.columns([1, 1, 2])  # العمود الأخير أكبر
 # with col_c:
 #     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
