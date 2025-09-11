@@ -206,7 +206,7 @@ data = {
 df = pd.DataFrame(data)
 
 # --- اختيار السنة من اليمين ---
-col1, col2 = st.columns([1, 2])
+col1, col2 = st.columns([1, 3])
 with col1:
     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
 
@@ -232,7 +232,8 @@ fig.update_layout(
 )
 
 with col2:
-    st.plotly_chart(fig, use_container_width=False)
+    st.plotly_chart(fig, use_container_width=True)
+
 
 
 
