@@ -166,9 +166,9 @@ with col2:
 
 
 
-import streamlit as st
-import pandas as pd
-import plotly.express as px
+# import streamlit as st
+# import pandas as pd
+# import plotly.express as px
 
 # --- البيانات ---
 data = {
@@ -297,6 +297,7 @@ with col2:
 # col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
 # with col2:
 #     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
