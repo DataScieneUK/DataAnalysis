@@ -196,19 +196,19 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# # --- البيانات ---
-# data = {
-#     "Category": ["Humanitarian", "Development", "Charity"],
-#     "2022": [435.86, 2858.41, 154.85],
-#     "2023": [1334.84, 1718.77, 124.62],
-#     "2024": [1149.3, 1785.54, 131.55]
-# }
-# df = pd.DataFrame(data)
+# --- البيانات ---
+data = {
+    "Category": ["Humanitarian", "Development", "Charity"],
+    "2022": [435.86, 2858.41, 154.85],
+    "2023": [1334.84, 1718.77, 124.62],
+    "2024": [1149.3, 1785.54, 131.55]
+}
+df = pd.DataFrame(data)
 
-# # --- اختيار السنة من اليمين ---
-# col1, col2 = st.columns([1, 4])
-# with col1:
-#     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
+# --- اختيار السنة من اليمين ---
+col1, col2 = st.columns([1, 4])
+with col1:
+    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
 
 # # --- رسم الجراف ---
 # fig = px.pie(
@@ -233,6 +233,7 @@ st.markdown(
 
 # with col2:
 #     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
