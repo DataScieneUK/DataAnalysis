@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from io import StringIO
 
 # --- Page Config (لازم يكون أول حاجة) ---
 st.set_page_config(
@@ -183,29 +184,29 @@ col1, col2, col3 = st.columns([1,3,1])
 # with col1:
 #     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
 
-# with col2:
-#     # نرسم الجراف بعد ما عرفنا selected_year
-#     fig = px.pie(
-#         df,
-#         values=selected_year,  # هنا الآن القيمة محدثة حسب الاختيار
-#         names="Category",
-#         title=f"النسب المئوية للإنفاق في {selected_year}",
-#         hole=0.4
-#     )
+with col2:
+    # نرسم الجراف بعد ما عرفنا selected_year
+    fig = px.pie(
+        df,
+        values=selected_year,  # هنا الآن القيمة محدثة حسب الاختيار
+        names="Category",
+        title=f"النسب المئوية للإنفاق في {selected_year}",
+        hole=0.4
+    )
 
-#     fig.update_traces(
-#         textinfo="percent+label",
-#         pull=[0.05, 0.05, 0.05]
-#     )
+    fig.update_traces(
+        textinfo="percent+label",
+        pull=[0.05, 0.05, 0.05]
+    )
 
-#     fig.update_layout(
-#         width=500,
-#         height=500,
-#         title_x=0.5,
-#         title_font=dict(size=22)
-#     )
+    fig.update_layout(
+        width=500,
+        height=500,
+        title_x=0.5,
+        title_font=dict(size=22)
+    )
 
-#     st.plotly_chart(fig, use_container_width=False)
+    st.plotly_chart(fig, use_container_width=False)
 
 
 
@@ -279,6 +280,7 @@ col1, col2, col3 = st.columns([1,3,1])
 # col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
 # with col2:
 #     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
