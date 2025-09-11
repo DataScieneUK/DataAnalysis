@@ -121,7 +121,7 @@ fig.update_layout(
 )
 
 with col2:
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=False)
 
 
 ##################################################
@@ -232,7 +232,8 @@ fig.update_layout(
 )
 
 with col2:
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=False)
+
 
 
 
