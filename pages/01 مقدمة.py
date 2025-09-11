@@ -210,29 +210,30 @@ col1, col2 = st.columns([1, 4])
 with col1:
     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
 
-# # --- رسم الجراف ---
-# fig = px.pie(
-#     df,
-#     values=selected_year,
-#     names="Category",
-#     title=f"النسب المئوية للإنفاق في {selected_year}",
-#     hole=0.4  # لعمل Donut Chart
-# )
+# --- رسم الجراف ---
+fig = px.pie(
+    df,
+    values=selected_year,
+    names="Category",
+    title=f"النسب المئوية للإنفاق في {selected_year}",
+    hole=0.4  # لعمل Donut Chart
+)
 
-# fig.update_traces(
-#     textinfo="percent+label",
-#     pull=[0.05, 0.05, 0.05]  # لسحب القطاعات للخارج قليلاً لزيادة الوضوح
-# )
+fig.update_traces(
+    textinfo="percent+label",
+    pull=[0.05, 0.05, 0.05]  # لسحب القطاعات للخارج قليلاً لزيادة الوضوح
+)
 
-# fig.update_layout(
-#     width=500,
-#     height=500,
-#     title_x=0.5,
-#     title_font=dict(size=22)
-# )
+fig.update_layout(
+    width=500,
+    height=500,
+    title_x=0.5,
+    title_font=dict(size=22)
+)
 
-# with col2:
-#     st.plotly_chart(fig, use_container_width=False)
+with col2:
+    st.plotly_chart(fig, use_container_width=False)
+
 
 
 
