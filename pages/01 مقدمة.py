@@ -87,7 +87,7 @@ df_long["Year"] = df_long["Year"].str.replace("Spending in ", "")
 
 # تقسيم الصفحة لعمودين (يمين لزر اختيار السنة، شمال للجراف)
 # col1, col2 = st.columns([1, 3])
-col1, col2, col3 = st.columns([1,1,1])
+col1, col2, col3 = st.columns([1,3,1])
 with col1:
     selected_year = st.radio(
         "📅 اختر السنة:",
@@ -131,7 +131,7 @@ with col2:
 
 
 # --- النص التوضيحي ---
-col1, col2, col3 = st.columns([1,1,1])  # العمود الأوسط أوسع
+col1, col2, col3 = st.columns([1,3,1])  # العمود الأوسط أوسع
 
 # --- البيانات ---
 data = """Category,Spending in 2022,Spending in 2023,Spending in 2024
@@ -179,7 +179,7 @@ fig.update_layout(
 )
 
 # نخلي الرسم في منتصف الصفحة
-col1, col2, col3 = st.columns([1,2,1])
+col1, col2, col3 = st.columns([1,3,1])
 with col2:
     st.plotly_chart(fig, use_container_width=False)
 
@@ -235,7 +235,7 @@ fig.update_layout(
 # with col2:
 #     st.plotly_chart(fig, use_container_width=True)
 
-col1, col2, col3 = st.columns([1,1,1])
+col1, col2, col3 = st.columns([1,3,1])
 
 
 with col1:
