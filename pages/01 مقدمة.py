@@ -182,24 +182,25 @@ fig = px.bar(
     title="💰 توزيع المساعدات الإماراتية حسب الفئة (2022 – 2024)"
 )
 
-fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
+# fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
 
-fig.update_layout(
-    xaxis=dict(
-        title="السنة",
-        categoryorder="array",
-        categoryarray=["2022", "2023", "2024"]
-    ),
-    yaxis_title="Spending (Million USD)",
-    hovermode="x unified",
-    width=800, height=500,
-    legend=dict(title="الفئة")
-)
+# fig.update_layout(
+#     xaxis=dict(
+#         title="السنة",
+#         categoryorder="array",
+#         categoryarray=["2022", "2023", "2024"]
+#     ),
+#     yaxis_title="Spending (Million USD)",
+#     hovermode="x unified",
+#     width=800, height=500,
+#     legend=dict(title="الفئة")
+# )
 
-# نخلي الرسم في منتصف الصفحة
-col1, col2, col3 = st.columns([1,2,1])
-with col2:
-    st.plotly_chart(fig, use_container_width=False)
+# # نخلي الرسم في منتصف الصفحة
+# col1, col2, col3 = st.columns([1,2,1])
+# with col2:
+#     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
