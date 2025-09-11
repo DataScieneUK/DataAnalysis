@@ -193,6 +193,77 @@ with col2:
 
 
 
+ 
+
+
+
+# st.markdown(
+#     """
+#     <p style='color:#5d6063; font-size:25px; font-weight:bold; text-align:justify;'>
+# 📊 أنواع المساعدات الإنسانية علي مدار السنوات الثلاثة الماضية
+#     </p>
+#     """,
+#     unsafe_allow_html=True
+# )
+
+
+
+st.plotly_chart(fig, use_container_width=True)
+
+
+fig.update_traces(textposition="outside")
+fig.update_layout(width=600, height=500)  # 👈 عرض أقل
+
+# نخلي الرسم في منتصف الصفحة
+col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
+with col2:
+    st.plotly_chart(fig, use_container_width=False)
+
+
+
+st.markdown(
+    """
+    <p style='color:#5d6063; font-size:25px; font-weight:bold; text-align:justify;'>
+و هنا لعرض النسب المئوية
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
+
+# البيانات
+data = {
+    "Category": ["Humanitarian", "Development", "Charity"],
+    "2022": [435.86, 2858.41, 154.85],
+    "2023": [1334.84, 1718.77, 124.62],
+    "2024": [1149.3, 1785.54, 131.55]
+}
+
+df = pd.DataFrame(data)
+
+# إنشاء الأعمدة لعرض 3 جرافات جنب بعض
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    fig_2022 = px.pie(df, values="2022", names="Category", 
+                      title="إنفاق عام 2022 (%)")
+    st.plotly_chart(fig_2022, use_container_width=True)
+
+with col2:
+    fig_2023 = px.pie(df, values="2023", names="Category", 
+                      title="إنفاق عام 2023 (%)")
+    st.plotly_chart(fig_2023, use_container_width=True)
+
+with col3:
+    fig_2024 = px.pie(df, values="2024", names="Category", 
+                      title="إنفاق عام 2024 (%)")
+    st.plotly_chart(fig_2024, use_container_width=True)
+
+
+
+
 
 
 
