@@ -238,9 +238,15 @@ fig.update_layout(
 col1, col2, col3 = st.columns([1,3,1])
 
 
+# with col1:
+#     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
 with col1:
-    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
-
+    selected_year = st.radio(
+        "📅 اختر السنة:",
+        options=sorted(df_long["Year"].unique()),
+        index=0,
+        key="year_selector"
+    )
 with col2:
     st.plotly_chart(fig, use_container_width=False)
 
@@ -249,6 +255,7 @@ with col2:
 
 
  
+
 
 
 
