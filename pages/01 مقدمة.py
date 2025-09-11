@@ -257,25 +257,25 @@ data = {
 df = pd.DataFrame(data)
 
 # اختيار السنة
-col1, col2 = st.columns([1, 4])
+# col1, col2 = st.columns([1, 4])
 # with col1:
 #     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
 
-fig = px.pie(
-    df,
-    values=selected_year,
-    names="Category",
-    title=f"النسب المئوية للإنفاق في {selected_year}",
-    hole=0.4
-)
+# fig = px.pie(
+#     df,
+#     values=selected_year,
+#     names="Category",
+#     title=f"النسب المئوية للإنفاق في {selected_year}",
+#     hole=0.4
+# )
 
-fig.update_traces(textinfo="percent+label", pull=[0.05, 0.05, 0.05])
-fig.update_layout(width=500, height=500, title_x=0.5, title_font=dict(size=22))
+# fig.update_traces(textinfo="percent+label", pull=[0.05, 0.05, 0.05])
+# fig.update_layout(width=500, height=500, title_x=0.5, title_font=dict(size=22))
 
-# هنا نعمل الأعمدة بحيث الجراف في العمود الأخير (اليمين)
-col_a, col_b, col_c = st.columns([1, 1, 2])  # العمود الأخير أكبر
-with col_c:
-    st.plotly_chart(fig, use_container_width=False)
+# col_a, col_b, col_c = st.columns([1, 1, 2])  # العمود الأخير أكبر
+# with col_c:
+#     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
