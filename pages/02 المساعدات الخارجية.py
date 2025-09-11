@@ -177,109 +177,110 @@ data = {
 }
 df = pd.DataFrame(data)
 
-# --- تقسيم الصفحة ---
-col1, col2, col3 = st.columns([1,3,1])
+# # --- تقسيم الصفحة ---
+# col1, col2, col3 = st.columns([1,3,1])
 
-with col1:
-    # نعمل اختيار السنة أولاً
-    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
+# with col1:
+#     # نعمل اختيار السنة أولاً
+#     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
 
-with col2:
-    # نرسم الجراف بعد ما عرفنا selected_year
-    fig = px.pie(
-        df,
-        values=selected_year,  # هنا الآن القيمة محدثة حسب الاختيار
-        names="Category",
-        title=f"النسب المئوية للإنفاق في {selected_year}",
-        hole=0.4
-    )
+# with col2:
+#     # نرسم الجراف بعد ما عرفنا selected_year
+#     fig = px.pie(
+#         df,
+#         values=selected_year,  # هنا الآن القيمة محدثة حسب الاختيار
+#         names="Category",
+#         title=f"النسب المئوية للإنفاق في {selected_year}",
+#         hole=0.4
+#     )
 
-    fig.update_traces(
-        textinfo="percent+label",
-        pull=[0.05, 0.05, 0.05]
-    )
+#     fig.update_traces(
+#         textinfo="percent+label",
+#         pull=[0.05, 0.05, 0.05]
+#     )
 
-    fig.update_layout(
-        width=500,
-        height=500,
-        title_x=0.5,
-        title_font=dict(size=22)
-    )
+#     fig.update_layout(
+#         width=500,
+#         height=500,
+#         title_x=0.5,
+#         title_font=dict(size=22)
+#     )
 
-    st.plotly_chart(fig, use_container_width=False)
+#     st.plotly_chart(fig, use_container_width=False)
 
 
 
 
 ###################################################################
-st.markdown(
-    """
-    <p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
-    شملت المساعدات الخارجية لدولة الإمارات مجموعة واسعة من المشاريع التنموية والإنسانية والخيرية. ولتحديد القطاعات التي تم توجيه المساعدات إليها بدقة، اعتٌمِد تصنيف يرتكز على 'الغرض من النشاط، وفقًا لإطار عمل وتقارير المساعدات الخارجية لدولة الإمارات وسياساتها. ويهدف هذا النهج إلى ضمان الاتساق مع المعايير الدولية وتوضيح الأثر المرجو من المساعدات.
-    </p>
-    """,
-    unsafe_allow_html=True
-)
+# st.markdown(
+#     """
+#     <p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
+#     شملت المساعدات الخارجية لدولة الإمارات مجموعة واسعة من المشاريع التنموية والإنسانية والخيرية. ولتحديد القطاعات التي تم توجيه المساعدات إليها بدقة، اعتٌمِد تصنيف يرتكز على 'الغرض من النشاط، وفقًا لإطار عمل وتقارير المساعدات الخارجية لدولة الإمارات وسياساتها. ويهدف هذا النهج إلى ضمان الاتساق مع المعايير الدولية وتوضيح الأثر المرجو من المساعدات.
+#     </p>
+#     """,
+#     unsafe_allow_html=True
+# )
 
-# البيانات
-data = {
-    "Sector": [
-        "Commodity Aid",
-        "Health",
-        "General Programme Assistance",
-        "Transport and Storage",
-        "Social Services",
-        "Other"
-    ],
-    "Spending in 2022": [276.36, 403.54, 1858.45, 97.82, 384.89, 428.06],
-    "Spending in 2023": [635.76, 488.19, 998.13, 149.29, 355.54, 551.33],
-    "Spending in 2024": [601.06, 510.06, 1063.07, 183.34, 243.18, 465.67],
-}
+# # البيانات
+# data = {
+#     "Sector": [
+#         "Commodity Aid",
+#         "Health",
+#         "General Programme Assistance",
+#         "Transport and Storage",
+#         "Social Services",
+#         "Other"
+#     ],
+#     "Spending in 2022": [276.36, 403.54, 1858.45, 97.82, 384.89, 428.06],
+#     "Spending in 2023": [635.76, 488.19, 998.13, 149.29, 355.54, 551.33],
+#     "Spending in 2024": [601.06, 510.06, 1063.07, 183.34, 243.18, 465.67],
+# }
 
-df = pd.DataFrame(data)
+# df = pd.DataFrame(data)
 
-# تحويل البيانات إلى long format عشان نرسم
-df_long = df.melt(id_vars="Sector", 
-                  var_name="Year", 
-                  value_name="Spending")
+# # تحويل البيانات إلى long format عشان نرسم
+# df_long = df.melt(id_vars="Sector", 
+#                   var_name="Year", 
+#                   value_name="Spending")
 
-# تنظيف اسم العمود (يبقى 2022 مش "Spending in 2022")
-df_long["Year"] = df_long["Year"].str.replace("Spending in ", "")
+# # تنظيف اسم العمود (يبقى 2022 مش "Spending in 2022")
+# df_long["Year"] = df_long["Year"].str.replace("Spending in ", "")
 
-# رسم Stacked Bar Chart
-fig = px.bar(
-    df_long,
-    x="Year",
-    y="Spending",
-    color="Sector",
-    text="Spending",
-    title="📊 الإنفاق عبر القطاع (2022-2024)",
-    barmode="stack",
-    height=600,
-)
+# # رسم Stacked Bar Chart
+# fig = px.bar(
+#     df_long,
+#     x="Year",
+#     y="Spending",
+#     color="Sector",
+#     text="Spending",
+#     title="📊 الإنفاق عبر القطاع (2022-2024)",
+#     barmode="stack",
+#     height=600,
+# )
 
-# تحسينات شكل
-fig.update_traces(texttemplate="%{text:.0f}", textposition="inside")
-fig.update_layout(
-    xaxis_title="Year",
-    yaxis_title="Spending (Million AED)",
-    legend_title="Sector",
-    width=600, height=800
-)
+# # تحسينات شكل
+# fig.update_traces(texttemplate="%{text:.0f}", textposition="inside")
+# fig.update_layout(
+#     xaxis_title="Year",
+#     yaxis_title="Spending (Million AED)",
+#     legend_title="Sector",
+#     width=600, height=800
+# )
 
-# عرض على Streamlit
-# st.plotly_chart(fig, use_container_width=True)
-
-
+# # عرض على Streamlit
+# # st.plotly_chart(fig, use_container_width=True)
 
 
-# fig.update_traces(textposition="outside")
 
 
-# نخلي الرسم في منتصف الصفحة
-col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
-with col2:
-    st.plotly_chart(fig, use_container_width=False)
+# # fig.update_traces(textposition="outside")
+
+
+# # نخلي الرسم في منتصف الصفحة
+# col1, col2, col3 = st.columns([1,2,1])  # العمود الأوسط أوسع
+# with col2:
+#     st.plotly_chart(fig, use_container_width=False)
+
 
 
 
