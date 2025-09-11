@@ -232,7 +232,7 @@ fig.update_layout(
 )
 
 with col2:
-    st.plotly_chart(fig, use_container_width=False)
+    st.plotly_chart(fig, use_container_width=True)
 
 
 
@@ -240,84 +240,4 @@ with col2:
 
 
 
-
-
-# # البيانات
-# data = {
-#     "Category": ["Humanitarian", "Development", "Charity"],
-#     "2022": [435.86, 2858.41, 154.85],
-#     "2023": [1334.84, 1718.77, 124.62],
-#     "2024": [1149.3, 1785.54, 131.55]
-# }
-# df = pd.DataFrame(data)
-
-
-# col1, col2 = st.columns([1, 4])
-# with col1:
-#     selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
-
-# # fig = px.pie(
-# #     df,
-# #     values=selected_year,
-# #     names="Category",
-# #     title=f"النسب المئوية للإنفاق في {selected_year}",
-# #     hole=0.4
-# # )
-
-# # fig.update_traces(textinfo="percent+label", pull=[0.05, 0.05, 0.05])
-# # fig.update_layout(width=500, height=500, title_x=0.5, title_font=dict(size=22))
-
-# # col_a, col_b, col_c = st.columns([1, 1, 2])  # العمود الأخير أكبر
-# # with col_c:
-# #     st.plotly_chart(fig, use_container_width=False)
-
-
-
-# --- لازم يتنفذ أولاً ---
-st.set_page_config(layout="wide", page_title="Demo", page_icon="📊")
-
-# --- بيانات تجريبية (استبدلها ببياناتك) ---
-data = """Category,2022,2023,2024
-Humanitarian,435.86,1334.84,1149.3
-Development,2858.41,1718.77,1785.54
-Charity,154.85,124.62,131.55
-"""
-df = pd.read_csv(StringIO(data))
-
-# --- نجهز القيم لعرض الدونات ---
-df_plot = df.copy()
-
-# --- تقسيم الأعمدة: عمود فارغ يسار، عمود المحتوى الأوسط (للمخطط)، وعمود ضيق على اليمين لأزرار الاختيار ---
-col_left, col_center, col_right = st.columns([1, 5, 1])
-
-# في العمود الأيمن نحط الـ radio (سيظهر على اليمين)
-with col_right:
-    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2)
-
-# في العمود الأوسط نعرض الجراف (بمكان أوسع)
-with col_center:
-    # نرسم donut chart للسنة المختارة
-    fig = px.pie(
-        df_plot,
-        values=selected_year,
-        names="Category",
-        title=f"النسب المئوية للإنفاق في {selected_year}",
-        hole=0.4
-    )
-    fig.update_traces(textinfo="percent+label", pull=[0.05, 0.05, 0.05])
-    fig.update_layout(width=480, height=480, title_x=0.5)
-    st.plotly_chart(fig, use_container_width=False)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
