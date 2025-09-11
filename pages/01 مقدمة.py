@@ -148,48 +148,49 @@ Development,2858.41,1718.77,1785.54
 Charity,154.85,124.62,131.55
 """
 
-# # قراءة البيانات
-# df = pd.read_csv(StringIO(data))
+# قراءة البيانات
+df = pd.read_csv(StringIO(data))
 
-# # تحويل البيانات من Wide إلى Long
-# df_long = df.melt(
-#     id_vars="Category", 
-#     var_name="Year", 
-#     value_name="Spending"
-# )
+# تحويل البيانات من Wide إلى Long
+df_long = df.melt(
+    id_vars="Category", 
+    var_name="Year", 
+    value_name="Spending"
+)
 
-# # تنظيف أسماء السنوات
-# df_long["Year"] = df_long["Year"].str.replace("Spending in ", "")
+# تنظيف أسماء السنوات
+df_long["Year"] = df_long["Year"].str.replace("Spending in ", "")
 
-# # --- رسم الجراف الجديد (Grouped Bar Chart) ---
-# fig = px.bar(
-#     df_long,
-#     x="Year",
-#     y="Spending",
-#     color="Category",
-#     barmode="group",  # يعرض كل فئة بجانب الأخرى للسنة نفسها
-#     text="Spending",
-#     title="💰 توزيع المساعدات الإماراتية حسب الفئة (2022 – 2024)"
-# )
+# --- رسم الجراف الجديد (Grouped Bar Chart) ---
+fig = px.bar(
+    df_long,
+    x="Year",
+    y="Spending",
+    color="Category",
+    barmode="group",  # يعرض كل فئة بجانب الأخرى للسنة نفسها
+    text="Spending",
+    title="💰 توزيع المساعدات الإماراتية حسب الفئة (2022 – 2024)"
+)
 
-# fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
+fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
 
-# fig.update_layout(
-#     xaxis=dict(
-#         title="السنة",
-#         categoryorder="array",
-#         categoryarray=["2022", "2023", "2024"]
-#     ),
-#     yaxis_title="Spending (Million USD)",
-#     hovermode="x unified",
-#     width=800, height=500,
-#     legend=dict(title="الفئة")
-# )
+fig.update_layout(
+    xaxis=dict(
+        title="السنة",
+        categoryorder="array",
+        categoryarray=["2022", "2023", "2024"]
+    ),
+    yaxis_title="Spending (Million USD)",
+    hovermode="x unified",
+    width=800, height=500,
+    legend=dict(title="الفئة")
+)
 
-# # نخلي الرسم في منتصف الصفحة
-# col1, col2, col3 = st.columns([1,2,1])
-# with col2:
-#     st.plotly_chart(fig, use_container_width=False)
+# نخلي الرسم في منتصف الصفحة
+col1, col2, col3 = st.columns([1,2,1])
+with col2:
+    st.plotly_chart(fig, use_container_width=False)
+
 
 
 
