@@ -152,10 +152,9 @@ with col2:
 # st.image("images/image8.png", use_container_width =False, width=600)
 ################################################################################
 
-
 import streamlit as st
 import pandas as pd
-import plotly.graph_objects as go
+import plotly.express as px
 
 st.set_page_config(layout="wide")
 
@@ -176,58 +175,39 @@ with col1:
         "اختر السنة:",
         ["2022", "2023", "2024"],
         index=2,
-        key="currency_year_selector"
+        key="radar_chart_selector"
     )
 
-# تصفية البيانات
+# تصفية البيانات للسنة المختارة
 df_selected = df[["Income Level", selected_year]].rename(columns={selected_year: "Value"})
 
-# فصل البيانات لثلاثة أنواع
-aed_value = df_selected[df_selected["Income Level"] == "AED"]["Value"].values[0]
-usd_value = df_selected[df_selected["Income Level"] == "USD"]["Value"].values[0]
-percentage_value = df_selected[df_selected["Income Level"] == "Percentage"]["Value"].values[0]
+# --- رسم جراف الرادار ---
+fig = px.line_polar(
+    df_selected,
+    r="Value",
+    theta="Income Level",
+    line_close=True,
+    title=f"📊 مقارنة القيم (AED / USD / %) في {selected_year}",
+)
 
-# --- رسم الجراف ---
-fig = go.Figure()
+fig.update_traces(
+    fill='toself',
+    hovertemplate='<b>%{theta}</b><br>القيمة: %{r}<extra></extra>'
+)
 
-# Bars لـ AED و USD
-fig.add_trace(go.Bar(
-    x=["AED", "USD"],
-    y=[aed_value, usd_value],
-    text=[f"{aed_value:.2f}", f"{usd_value:.2f}"],
-    textposition="outside",
-    name="Values",
-    marker_color=["#1f77b4", "#2ca02c"]
-))
-
-# خط للنسبة المؤوية (على محور ثاني)
-fig.add_trace(go.Scatter(
-    x=["Percentage"],
-    y=[percentage_value],
-    text=[f"{percentage_value:.1f}%"],
-    textposition="top center",
-    mode="lines+markers+text",
-    name="Percentage",
-    line=dict(color="orange", width=3, dash="dash"),
-    marker=dict(size=10, symbol="diamond")
-))
-
-# تحسين الشكل
 fig.update_layout(
-    title=f"💱 الإنفاق و النسبة - {selected_year}",
-    yaxis=dict(title="Values (AED / USD)", side="left"),
-    yaxis2=dict(title="Percentage (%)", overlaying="y", side="right", showgrid=False),
-    width=800,
-    height=500,
-    title_x=0.5,
-    legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5)
+    polar=dict(
+        radialaxis=dict(visible=True, showticklabels=True, ticks="outside"),
+    ),
+    width=700,
+    height=600,
+    title_x=0.5
 )
 
 # عرض الجراف في العمود الأوسط
 with col2:
     st.plotly_chart(fig, use_container_width=False)
-
-
+##############################################################
 
 st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
     وقد تركزت المساعدات في شريحة الدول الأقل نموا بصفة رئيسية في كل من تشاد والسودان  بنسب  59 في المئة و26 في المئة من إجمالي تلك المساعدات على التوالي.
@@ -285,6 +265,7 @@ st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-a
 
 
 st.image("images/image13.png", use_container_width =False, width=800)
+
 
 
 
