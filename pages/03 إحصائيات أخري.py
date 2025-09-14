@@ -174,7 +174,7 @@ with col1:
         "اختر السنة:",
         ["2022", "2023", "2024"],
         index=2,
-        key="treemap_selector"
+        key="horizontal_bar_selector"
     )
 
 # تجهيز البيانات
@@ -182,30 +182,32 @@ df_selected = df[["Income Level", selected_year]].rename(columns={selected_year:
 total = df_selected["Value"].sum()
 df_selected["Percentage"] = (df_selected["Value"] / total) * 100
 
-# --- رسم Treemap ---
-fig = px.treemap(
+# --- رسم Bar Chart أفقي ---
+fig = px.bar(
     df_selected,
-    path=["Income Level"],
-    values="Value",
-    color="Value",
-    color_continuous_scale="Blues",
-    title=f"📊 توزيع القيم (Treemap) لسنة {selected_year}",
+    x="Value",
+    y="Income Level",
+    orientation="h",
+    text=df_selected.apply(lambda row: f"{row['Value']} ({row['Percentage']:.1f}%)", axis=1),
+    color="Income Level",
+    title=f"📊 توزيع القيم لسنة {selected_year}"
 )
 
 fig.update_traces(
-    texttemplate="<b>%{label}</b><br>%{value}<br>(%{customdata[0]:.1f}%)",
-    customdata=df_selected[["Percentage"]].to_numpy()
+    textposition="outside"
 )
 
 fig.update_layout(
-    margin=dict(t=50, l=25, r=25, b=25),
+    xaxis_title="القيمة",
+    yaxis_title="",
     width=700,
-    height=500,
+    height=400,
     title_x=0.5
 )
 
 with col2:
     st.plotly_chart(fig, use_container_width=False)
+
 
 ##############################################################
 
@@ -265,6 +267,7 @@ st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-a
 
 
 st.image("images/image13.png", use_container_width =False, width=800)
+
 
 
 
