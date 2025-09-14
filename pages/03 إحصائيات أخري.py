@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+import plotly.express as px
 
 st.set_page_config(    layout="wide",    page_title="UAE Foreign Aid Hub",    page_icon="🇦🇪",    initial_sidebar_state="expanded")
 
@@ -58,15 +60,87 @@ st.title("إحصائيات أخري")
 
 
 
-st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
-                تُصنَّف دول العالم إلى خمس فئات رئيسية وفقًا لمستوى الدخل، وذلك استناداً إلى تصنيفات من مؤسسات دولية معتمدة، كالبنك الدولي وكذلك القائمة الاسترشادية للجنة المساعدات الإنمائية التابعة لمنظمة التعاون الاقتصادي والتنمية، وعلى أساس نصيب الفرد من الدخل القومي الإجمالي (GNI) وتشمل الفئات:   الشريحة الدنيا من متوسط الدخل، والشريحة العليا من متوسط الدخل، والدخل العالي، والدخل المنخفض، والدول الأقل نمواً.
-                </p>
-                """,unsafe_allow_html=True)
+# st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
+#                 تُصنَّف دول العالم إلى خمس فئات رئيسية وفقًا لمستوى الدخل، وذلك استناداً إلى تصنيفات من مؤسسات دولية معتمدة، كالبنك الدولي وكذلك القائمة الاسترشادية للجنة المساعدات الإنمائية التابعة لمنظمة التعاون الاقتصادي والتنمية، وعلى أساس نصيب الفرد من الدخل القومي الإجمالي (GNI) وتشمل الفئات:   الشريحة الدنيا من متوسط الدخل، والشريحة العليا من متوسط الدخل، والدخل العالي، والدخل المنخفض، والدول الأقل نمواً.
+#                 </p>
+#                 """,unsafe_allow_html=True)
 
 
-st.image("images/image7.png", use_container_width =False, width=750)
+# st.image("images/image7.png", use_container_width =False, width=750)
 
 
+
+
+st.set_page_config(layout="wide")
+
+# --- البيانات ---
+data = {
+    "Income Level": [
+        "Least Developed Countries",
+        "Lower Middle Income",
+        "Low Income",
+        "High Income",
+        "Upper Middle Income",
+        "Multi-country"
+    ],
+    "Spending in 2022": [914.08, 420.9, 32.04, 150.24, 1622.75, 309.13],
+    "Spending in 2023": [715.73, 878.19, 281.34, 467.11, 561.76, 274.1],
+    "Spending in 2024": [1349.59, 357.04, 17.53, 95.3, 974.99, 271.94],
+}
+
+df = pd.DataFrame(data)
+
+# --- تحويل البيانات إلى long format ---
+df_long = df.melt(id_vars="Income Level", var_name="Year", value_name="Spending")
+df_long["Year"] = df_long["Year"].str.replace("Spending in ", "")
+
+# --- تقسيم الأعمدة ---
+col1, col2, col3 = st.columns([1,3,1])
+
+# اختيار السنة
+with col1:
+    selected_year = st.radio(
+        "اختر السنة:",
+        options=["2022", "2023", "2024"],
+        index=2,
+        key="income_year_selector"
+    )
+
+# تصفية البيانات على السنة المختارة
+df_selected = df_long[df_long["Year"] == selected_year].copy()
+
+# حساب النسبة المؤوية
+total_spending = df_selected["Spending"].sum()
+df_selected["Percentage"] = (df_selected["Spending"] / total_spending) * 100
+
+# عمود يجمع الرقم + النسبة للعرض على الأعمدة
+df_selected["Label"] = df_selected.apply(
+    lambda row: f"{row['Spending']:.0f} ({row['Percentage']:.1f}%)", axis=1
+)
+
+# --- رسم الجراف ---
+fig = px.bar(
+    df_selected,
+    x="Income Level",
+    y="Spending",
+    color="Income Level",
+    text="Label",
+    title=f"📊 الإنفاق حسب مستوى الدخل - {selected_year}",
+    height=600
+)
+
+fig.update_traces(textposition="outside")
+fig.update_layout(
+    xaxis_title="Income Level",
+    yaxis_title="Spending (Million AED)",
+    showlegend=False,  # كل عمود يمثل فئة
+    width=900,
+    title_x=0.5
+)
+
+# عرض الجراف في العمود الأوسط
+with col2:
+    st.plotly_chart(fig, use_container_width=False)
 
 
 st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
@@ -135,5 +209,6 @@ st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-a
 
 
 st.image("images/image13.png", use_container_width =False, width=800)
+
 
 
