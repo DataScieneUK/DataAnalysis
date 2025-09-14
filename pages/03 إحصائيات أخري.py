@@ -180,7 +180,7 @@ with col1:
 # تجهيز البيانات
 df_selected = df[["Income Level", selected_year]].rename(columns={selected_year: "Value"})
 total = df_selected["Value"].sum()
-df_selected["Percentage"] = (df_selected["Value"] / total) * 100
+# df_selected["Percentage"] = (df_selected["Value"] / total) * 100
 
 # --- رسم Bar Chart أفقي ---
 fig = px.bar(
@@ -188,7 +188,7 @@ fig = px.bar(
     x="Value",
     y="Income Level",
     orientation="h",
-    text=df_selected.apply(lambda row: f"{row['Value']} ({row['Percentage']:.1f}%)", axis=1),
+    text=df_selected.apply(lambda row: f"{row['Value']}", axis=1),
     color="Income Level",
     title=f"📊 توزيع القيم لسنة {selected_year}"
 )
@@ -267,6 +267,7 @@ st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-a
 
 
 st.image("images/image13.png", use_container_width =False, width=800)
+
 
 
 
