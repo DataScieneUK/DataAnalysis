@@ -151,7 +151,6 @@ with col2:
 
 # st.image("images/image8.png", use_container_width =False, width=600)
 ################################################################################
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -160,53 +159,54 @@ st.set_page_config(layout="wide")
 
 # --- البيانات ---
 data = {
-    "Income Level": ["AED", "USD"],
-    "2022": [1.6, 0.43],
-    "2023": [4.9, 1.33],
-    "2024": [4.22, 1.14],
+    "Income Level": ["AED", "USD", "Percentage"],
+    "2022": [1.6, 0.43, 12.63],
+    "2023": [4.9, 1.33, 41.99],
+    "2024": [4.22, 1.14, 37.48],
 }
 
 df = pd.DataFrame(data)
 
 # --- اختيار السنة ---
-col1, col2, col3 = st.columns([1,3,1])
+col1, col2, col3 = st.columns([1, 3, 1])
 with col1:
     selected_year = st.radio(
         "اختر السنة:",
         ["2022", "2023", "2024"],
         index=2,
-        key="radar_chart_selector"
+        key="treemap_selector"
     )
 
-# تصفية البيانات للسنة المختارة
+# تجهيز البيانات
 df_selected = df[["Income Level", selected_year]].rename(columns={selected_year: "Value"})
+total = df_selected["Value"].sum()
+df_selected["Percentage"] = (df_selected["Value"] / total) * 100
 
-# --- رسم جراف الرادار ---
-fig = px.line_polar(
+# --- رسم Treemap ---
+fig = px.treemap(
     df_selected,
-    r="Value",
-    theta="Income Level",
-    line_close=True,
-    title=f"📊 مقارنة القيم (AED / USD ) في {selected_year}",
+    path=["Income Level"],
+    values="Value",
+    color="Value",
+    color_continuous_scale="Blues",
+    title=f"📊 توزيع القيم (Treemap) لسنة {selected_year}",
 )
 
 fig.update_traces(
-    fill='toself',
-    hovertemplate='<b>%{theta}</b><br>القيمة: %{r}<extra></extra>'
+    texttemplate="<b>%{label}</b><br>%{value}<br>(%{customdata[0]:.1f}%)",
+    customdata=df_selected[["Percentage"]].to_numpy()
 )
 
 fig.update_layout(
-    polar=dict(
-        radialaxis=dict(visible=True, showticklabels=True, ticks="outside"),
-    ),
+    margin=dict(t=50, l=25, r=25, b=25),
     width=700,
-    height=600,
+    height=500,
     title_x=0.5
 )
 
-# عرض الجراف في العمود الأوسط
 with col2:
     st.plotly_chart(fig, use_container_width=False)
+
 ##############################################################
 
 st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
@@ -265,6 +265,7 @@ st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-a
 
 
 st.image("images/image13.png", use_container_width =False, width=800)
+
 
 
 
