@@ -159,10 +159,10 @@ st.set_page_config(layout="wide")
 
 # --- البيانات ---
 data = {
-    "Income Level": ["AED", "USD", "Percentage"],
-    "2022": [1.6, 0.43, 12.63],
-    "2023": [4.9, 1.33, 41.99],
-    "2024": [4.22, 1.14, 37.48],
+    "Income Level": ["AED", "USD"],
+    "2022": [1.6, 0.43],
+    "2023": [4.9, 1.33],
+    "2024": [4.22, 1.14],
 }
 
 df = pd.DataFrame(data)
@@ -190,7 +190,7 @@ fig = px.bar(
     orientation="h",
     text=df_selected.apply(lambda row: f"{row['Value']}", axis=1),
     color="Income Level",
-    title=f"📊 توزيع القيم لسنة {selected_year}"
+    title=f"📊 المساعدات الإنسانية, بالمليار {selected_year}"
 )
 
 fig.update_traces(
@@ -267,6 +267,7 @@ st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-a
 
 
 st.image("images/image13.png", use_container_width =False, width=800)
+
 
 
 
