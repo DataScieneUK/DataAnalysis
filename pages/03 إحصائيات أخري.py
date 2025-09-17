@@ -379,7 +379,6 @@ with col_center:
 
 # st.image("images/image10.png", use_container_width =False, width=600)
 
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -396,32 +395,37 @@ data = {
 
 df = pd.DataFrame(data)
 
-# --- اختيار السنة على اليمين ---
-col_left, col_right = st.columns([4, 1])
-with col_right:
-    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2, key="year_selector_pie")
+# --- اختيار السنة على اليسار والـ Pie Chart على اليمين ---
+col1, col2 = st.columns([1, 4])
+with col1:
+    selected_year = st.radio(
+        "اختر السنة:",
+        ["2022", "2023", "2024"],
+        index=2,
+        key="year_selector_pie"
+    )
 
 # تجهيز البيانات
 df_plot = df[["Sector", selected_year]].rename(columns={selected_year: "Spending"})
 
-# حساب النسبة المئوية لكل قطاع
+# حساب النسبة المئوية
 df_plot["Percentage"] = (df_plot["Spending"] / df_plot["Spending"].sum()) * 100
 
-# نص مخصص يظهر الإنفاق + النسبة
+# النص داخل القطاعات
 df_plot["Label"] = df_plot.apply(lambda row: f"{row['Spending']:.2f} ({row['Percentage']:.1f}%)", axis=1)
 
-# --- رسم Pie chart ---
+# --- رسم الـ Pie chart ---
 fig = px.pie(
     df_plot,
     names="Sector",
     values="Spending",
-    title=f"📊 توزيع الإنفاق على القطاعات في {selected_year}",
-    hole=0.4  # لو عايز Donut شكل أنيق
+    hole=0.4,
+    title=f"📊 توزيع الإنفاق على القطاعات في {selected_year}"
 )
 
 fig.update_traces(
     text=df_plot["Label"],
-    textinfo="text+percent",  # نخليها تعرض النص + النسبة
+    textinfo="text",  # نظهر النصوص المخصصة فقط
     textposition="inside",
     hovertemplate="<b>%{label}</b><br>الإنفاق: %{value:.2f}<br>النسبة: %{percent}"
 )
@@ -432,11 +436,9 @@ fig.update_layout(
     title_x=0.5
 )
 
-# عرض الرسم
-st.plotly_chart(fig, use_container_width=False)
-
-
-
+# عرض الرسم في العمود الكبير
+with col2:
+    st.plotly_chart(fig, use_container_width=False)
 
 ######################################################################################
 
@@ -478,6 +480,7 @@ st.image("images/image13.png", use_container_width =False, width=800)
 
 
 ######################################################################################
+
 
 
 
