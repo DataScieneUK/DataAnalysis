@@ -556,16 +556,85 @@ with col_center:
 ######################################################################################
 
 
-st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
-	و هنا توزيع لكامل مصادر الدعم, عبر المؤسسات المختلفة
-	</p>
-	""",unsafe_allow_html=True)
+# st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
+# 	و هنا توزيع لكامل مصادر الدعم, عبر المؤسسات المختلفة
+# 	</p>
+# 	""",unsafe_allow_html=True)
 
 
-st.image("images/image13.png", use_container_width =False, width=800)
+# st.image("images/image13.png", use_container_width =False, width=800)
 
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+st.set_page_config(layout="wide")
+
+# --- البيانات ---
+data = {
+    "Donor": [
+        "Government",
+        "Emirates Red Crescent",
+        "Dubai Humanitarian",
+        "MBR Global Initiatives",
+        "Private Sector and Individuals",
+        "Abu Dhabi Fund for Development",
+        "Other"
+    ],
+    "2022": [262.48, 53.21, 2.79, 12.8, 87.46, 1.22, 15.89],
+    "2023": [1139.95, 38.96, 16.22, 43.7, 47.45, 0.82, 47.73],
+    "2024": [904.67, 110.93, 50.86, 24.4, 13.41, 11.43, 33.6],
+}
+
+df = pd.DataFrame(data)
+
+# --- اختيار السنة على اليسار ---
+col1, col2 = st.columns([1, 4])
+with col1:
+    selected_year = st.radio(
+        "اختر السنة:",
+        ["2022", "2023", "2024"],
+        index=2,
+        key="year_selector_donors"
+    )
+
+# تجهيز البيانات للجراف
+df_plot = df[["Donor", selected_year]].rename(columns={selected_year: "Spending"})
+
+# --- رسم Bar Chart أفقي لزيادة وضوح العناوين ---
+fig = px.bar(
+    df_plot,
+    y="Donor",
+    x="Spending",
+    color="Donor",
+    text="Spending",
+    orientation="h",
+    title=f"📊 الإنفاق حسب المانحين في {selected_year}"
+)
+
+# تحسين شكل الرسم
+fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
+fig.update_layout(
+    width=850,
+    height=500,
+    xaxis_title="الإنفاق (مليون)",
+    yaxis_title="المانح",
+    title_x=0.5,
+    showlegend=False,
+    margin=dict(l=10, r=10, t=80, b=10)
+)
+
+# عرض الرسم
+# with col2:
+#     st.plotly_chart(fig, use_container_width=False)
+
+# عرض الرسم في المنتصف
+col_left, col_center, col_right = st.columns([1, 3, 1])
+with col_center:
+    st.plotly_chart(fig, use_container_width=False)
 
 ######################################################################################
+
 
 
 
