@@ -563,7 +563,6 @@ with col_center:
 
 
 # st.image("images/image13.png", use_container_width =False, width=800)
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -601,19 +600,26 @@ with col1:
 # تجهيز البيانات للجراف
 df_plot = df[["Donor", selected_year]].rename(columns={selected_year: "Spending"})
 
+# حساب النسبة المئوية
+total = df_plot["Spending"].sum()
+df_plot["Percentage"] = (df_plot["Spending"] / total) * 100
+
+# نص مخصص يحتوي القيمة + النسبة
+df_plot["Label"] = df_plot.apply(lambda row: f"{row['Spending']:.2f} ({row['Percentage']:.1f}%)", axis=1)
+
 # --- رسم Bar Chart أفقي لزيادة وضوح العناوين ---
 fig = px.bar(
     df_plot,
     y="Donor",
     x="Spending",
     color="Donor",
-    text="Spending",
+    text="Label",  # 👈 عرض القيمة + النسبة
     orientation="h",
     title=f"📊 الإنفاق حسب المانحين في {selected_year}"
 )
 
 # تحسين شكل الرسم
-fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
+fig.update_traces(textposition="outside")
 fig.update_layout(
     width=850,
     height=500,
@@ -624,16 +630,13 @@ fig.update_layout(
     margin=dict(l=10, r=10, t=80, b=10)
 )
 
-# عرض الرسم
-# with col2:
-#     st.plotly_chart(fig, use_container_width=False)
-
 # عرض الرسم في المنتصف
 col_left, col_center, col_right = st.columns([1, 3, 1])
 with col_center:
     st.plotly_chart(fig, use_container_width=False)
 
 ######################################################################################
+
 
 
 
