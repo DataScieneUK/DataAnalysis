@@ -464,8 +464,13 @@ fig.update_layout(
     title_x=0.5
 )
 
-# عرض الرسم في العمود الكبير
-with col2:
+# # عرض الرسم في العمود الكبير
+# with col2:
+#     st.plotly_chart(fig, use_container_width=False)
+
+# عرض الرسم في المنتصف
+col_left, col_center, col_right = st.columns([1, 3, 1])
+with col_center:
     st.plotly_chart(fig, use_container_width=False)
 
 ######################################################################################
@@ -497,6 +502,7 @@ st.image("images/image13.png", use_container_width =False, width=800)
 
 
 ######################################################################################
+
 
 
 
