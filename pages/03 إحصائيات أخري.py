@@ -210,17 +210,65 @@ with col2:
 
 
 ##############################################################
+import streamlit as st
+import pandas as pd
+import plotly.express as px
 
-st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
-    وقد تركزت المساعدات في شريحة الدول الأقل نموا بصفة رئيسية في كل من تشاد والسودان  بنسب  59 في المئة و26 في المئة من إجمالي تلك المساعدات على التوالي.
-    </p>
-    """,unsafe_allow_html=True)
+st.set_page_config(layout="wide")
+
+# --- البيانات ---
+data = {
+    "Country": ["Chad", "Sudan", "Other"],
+    "2022": [0.82, 13.76, 199.65],
+    "2023": [102.19, 25.8, 60.27],
+    "2024": [180, 80.39, 44.2],
+}
+
+df = pd.DataFrame(data)
+
+# تحويل البيانات إلى long format
+df_long = df.melt(
+    id_vars="Country", 
+    var_name="Year", 
+    value_name="Spending"
+)
+
+# --- رسم Stacked Bar Chart ---
+fig = px.bar(
+    df_long,
+    x="Year",
+    y="Spending",
+    color="Country",
+    text="Spending",
+    barmode="stack",
+    title="📊 الإنفاق حسب الدولة (2022 – 2024)"
+)
+
+fig.update_traces(texttemplate="%{text:.2f}", textposition="inside")
+fig.update_layout(
+    xaxis_title="السنة",
+    yaxis_title="الإنفاق (مليون)",
+    legend_title="الدولة",
+    width=700,
+    height=500,
+    title_x=0.5
+)
+
+# عرض الرسم في منتصف الصفحة
+col1, col2, col3 = st.columns([1, 3, 1])
+with col2:
+    st.plotly_chart(fig, use_container_width=False)
+
+# st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
+#     وقد تركزت المساعدات في شريحة الدول الأقل نموا بصفة رئيسية في كل من تشاد والسودان  بنسب  59 في المئة و26 في المئة من إجمالي تلك المساعدات على التوالي.
+#     </p>
+#     """,unsafe_allow_html=True)
 
 
-st.image("images/image9.png", use_container_width =False, width=600)
+# st.image("images/image9.png", use_container_width =False, width=600)
 
 
-
+######################################################################################
 
 st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
 حيث تشكل المساعدات السلعية نسبة 51.4 في المئة من إجمالي قيمة المساعدات الإنسانية .  وتشكل المساعدات في قطاع الصحة نسبة 23.4 في المئة من المساعدات الإنسانية  ويليها مساعدات دعم البرامج العامة بنسبة 22.8 في المئة،  و باقي البرامج 2.4 %
@@ -230,7 +278,7 @@ st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-a
 
 st.image("images/image10.png", use_container_width =False, width=600)
 
-
+######################################################################################
 
 st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
 	ظلّت مصادر التمويل الحكومية خلال عام 2024، المصدر الرئيسي للمساعدات، والتي تشمل مساهمات الحكومة والقطاع العام، حيث ساهمت بقيمةـ 9.72 مليار درهم (2.65 مليار دولار أمريكي)، أي ما نسبته 86.27 في المئة من إجمالي المساعدات. 
@@ -241,7 +289,7 @@ st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-a
 
 st.image("images/image11.png", use_container_width =False, width=600)
 
-
+######################################################################################
 
 st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
 تنوعت أساليب تنفيذ المساعدات الخارجية من قبل الجهات والمؤسسات المانحة في دولة الإمارات بما يعكس حرصها على تبني نهج متنوع يتماشى مع طبيعة المشاريع التنموية والإنسانية والخيرية. وخلال عام 2024، تم تنفيذ المساعدات الخارجية الإماراتية عبر أربع قنوات رئيسية:
@@ -257,7 +305,7 @@ st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-a
 st.image("images/image12.png", use_container_width =False, width=800)
 
 
-
+######################################################################################
 
 
 st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
@@ -269,6 +317,7 @@ st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-a
 st.image("images/image13.png", use_container_width =False, width=800)
 
 
+######################################################################################
 
 
 
