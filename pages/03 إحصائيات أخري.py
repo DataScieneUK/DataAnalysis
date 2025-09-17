@@ -371,13 +371,72 @@ with col_center:
 
 ######################################################################################
 
-st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
-حيث تشكل المساعدات السلعية نسبة 51.4 في المئة من إجمالي قيمة المساعدات الإنسانية .  وتشكل المساعدات في قطاع الصحة نسبة 23.4 في المئة من المساعدات الإنسانية  ويليها مساعدات دعم البرامج العامة بنسبة 22.8 في المئة،  و باقي البرامج 2.4 %
-    </p>
-    """,unsafe_allow_html=True)
+# st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
+# حيث تشكل المساعدات السلعية نسبة 51.4 في المئة من إجمالي قيمة المساعدات الإنسانية .  وتشكل المساعدات في قطاع الصحة نسبة 23.4 في المئة من المساعدات الإنسانية  ويليها مساعدات دعم البرامج العامة بنسبة 22.8 في المئة،  و باقي البرامج 2.4 %
+#     </p>
+#     """,unsafe_allow_html=True)
 
 
-st.image("images/image10.png", use_container_width =False, width=600)
+# st.image("images/image10.png", use_container_width =False, width=600)
+
+
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+st.set_page_config(layout="wide")
+
+# --- البيانات ---
+data = {
+    "Sector": ["Commodity Aid", "Health", "General Programme Assistance", "Other"],
+    "2022": [234.9, 88.71, 107.49, 4.77],
+    "2023": [577.87, 404.64, 310.49, 41.84],
+    "2024": [590.8, 269.43, 262.53, 26.53],
+}
+
+df = pd.DataFrame(data)
+
+# --- اختيار السنة على اليمين ---
+col_left, col_right = st.columns([4, 1])
+with col_right:
+    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2, key="year_selector_pie")
+
+# تجهيز البيانات
+df_plot = df[["Sector", selected_year]].rename(columns={selected_year: "Spending"})
+
+# حساب النسبة المئوية لكل قطاع
+df_plot["Percentage"] = (df_plot["Spending"] / df_plot["Spending"].sum()) * 100
+
+# نص مخصص يظهر الإنفاق + النسبة
+df_plot["Label"] = df_plot.apply(lambda row: f"{row['Spending']:.2f} ({row['Percentage']:.1f}%)", axis=1)
+
+# --- رسم Pie chart ---
+fig = px.pie(
+    df_plot,
+    names="Sector",
+    values="Spending",
+    title=f"📊 توزيع الإنفاق على القطاعات في {selected_year}",
+    hole=0.4  # لو عايز Donut شكل أنيق
+)
+
+fig.update_traces(
+    text=df_plot["Label"],
+    textinfo="text+percent",  # نخليها تعرض النص + النسبة
+    textposition="inside",
+    hovertemplate="<b>%{label}</b><br>الإنفاق: %{value:.2f}<br>النسبة: %{percent}"
+)
+
+fig.update_layout(
+    width=700,
+    height=500,
+    title_x=0.5
+)
+
+# عرض الرسم
+st.plotly_chart(fig, use_container_width=False)
+
+
+
 
 ######################################################################################
 
@@ -419,6 +478,7 @@ st.image("images/image13.png", use_container_width =False, width=800)
 
 
 ######################################################################################
+
 
 
 
