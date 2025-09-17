@@ -210,54 +210,6 @@ with col2:
 
 
 ##############################################################
-# import streamlit as st
-# import pandas as pd
-# import plotly.express as px
-
-# st.set_page_config(layout="wide")
-
-# # --- البيانات ---
-# data = {
-#     "Country": ["Chad", "Sudan", "Other"],
-#     "2022": [0.82, 13.76, 199.65],
-#     "2023": [102.19, 25.8, 60.27],
-#     "2024": [180, 80.39, 44.2],
-# }
-
-# df = pd.DataFrame(data)
-
-# # تحويل البيانات إلى long format
-# df_long = df.melt(
-#     id_vars="Country", 
-#     var_name="Year", 
-#     value_name="Spending"
-# )
-
-# # --- رسم Stacked Bar Chart ---
-# fig = px.bar(
-#     df_long,
-#     x="Year",
-#     y="Spending",
-#     color="Country",
-#     text="Spending",
-#     barmode="stack",
-#     title="📊 الإنفاق حسب الدولة (2022 – 2024)"
-# )
-
-# fig.update_traces(texttemplate="%{text:.2f}", textposition="inside")
-# fig.update_layout(
-#     xaxis_title="السنة",
-#     yaxis_title="الإنفاق (مليون)",
-#     legend_title="الدولة",
-#     width=700,
-#     height=500,
-#     title_x=0.5
-# )
-
-# # عرض الرسم في منتصف الصفحة
-# col1, col2, col3 = st.columns([1, 3, 1])
-# with col2:
-#     st.plotly_chart(fig, use_container_width=False)
 
 # st.markdown("""<p style='color:#5d6063; font-size:20px; font-weight:bold; text-align:justify;'>
 #     وقد تركزت المساعدات في شريحة الدول الأقل نموا بصفة رئيسية في كل من تشاد والسودان  بنسب  59 في المئة و26 في المئة من إجمالي تلك المساعدات على التوالي.
@@ -436,9 +388,14 @@ fig.update_layout(
     title_x=0.5
 )
 
-# عرض الرسم في العمود الكبير
-with col2:
+
+col_left, col_center, col_right = st.columns([1, 3, 1])
+with col_center:
     st.plotly_chart(fig, use_container_width=False)
+
+# # عرض الرسم في العمود الكبير
+# with col2:
+#     st.plotly_chart(fig, use_container_width=False)
 
 ######################################################################################
 
@@ -480,6 +437,7 @@ st.image("images/image13.png", use_container_width =False, width=800)
 
 
 ######################################################################################
+
 
 
 
