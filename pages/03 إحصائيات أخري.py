@@ -313,6 +313,60 @@ fig.update_layout(
 col_left, col_center, col_right = st.columns([1, 3, 1])
 with col_center:
     st.plotly_chart(fig, use_container_width=False)
+############################################################
+
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+st.set_page_config(layout="wide")
+
+# --- البيانات (النسب المئوية) ---
+data = {
+    "Country": ["Chad", "Sudan", "Other"],
+    "2022": [0.41, 6.89, 92.7],
+    "2023": [54.28, 13.70, 32.02],
+    "2024": [59.09, 26.39, 14.51],
+}
+
+df = pd.DataFrame(data)
+
+# اختيار السنة
+col1, col2 = st.columns([1, 4])
+with col1:
+    selected_year = st.radio("اختر السنة:", ["2022", "2023", "2024"], index=2, key="year_selector_percentages")
+
+# تجهيز البيانات للسنة المختارة
+df_plot = df[["Country", selected_year]].rename(columns={selected_year: "Percentage"})
+
+# --- رسم الجراف ---
+fig = px.bar(
+    df_plot,
+    x="Country",
+    y="Percentage",
+    color="Country",
+    text="Percentage",
+    title=f"📊 نسبة الإنفاق حسب الدولة في {selected_year}"
+)
+
+fig.update_traces(
+    texttemplate="%{text:.2f}%",
+    textposition="outside"
+)
+fig.update_layout(
+    xaxis_title="الدولة",
+    yaxis_title="النسبة المئوية %",
+    width=700,
+    height=500,
+    title_x=0.5,
+    yaxis=dict(range=[0, 100])  # عشان تبقى النسب كلها واضحة على نفس المقياس
+)
+
+# عرض الرسم في المنتصف
+col_left, col_center, col_right = st.columns([1, 3, 1])
+with col_center:
+    st.plotly_chart(fig, use_container_width=False)
+
 
 
 ######################################################################################
@@ -365,6 +419,7 @@ st.image("images/image13.png", use_container_width =False, width=800)
 
 
 ######################################################################################
+
 
 
 
